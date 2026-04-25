@@ -1,3 +1,5 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 langchain
 langchain-groq
 langchain-chroma
@@ -6,9 +8,5 @@ langgraph
 langdetect
 chromadb
 sentence-transformers
-streamlit
-fastapi 
-uvicorn 
-
-
-
+fastapi
+uvicorn
