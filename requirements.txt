@@ -10,3 +10,4 @@ chromadb
 sentence-transformers
 fastapi
 uvicorn
+langgraph-checkpoint-sqlite
