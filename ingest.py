@@ -19,7 +19,7 @@ def load_sections(path: str) -> list[dict]:
     # Split on === HEADER === lines
     raw_sections = re.split(r"\n(?===)", text)
     sections = []
-
+ 
     for section in raw_sections:
         section = section.strip()
         if not section:

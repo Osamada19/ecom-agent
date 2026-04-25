@@ -1,10 +1,12 @@
 from langchain_chroma import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
-
-# Multilingual model — handles Arabic, French, English, Darija
+from langchain_huggingface import HuggingFaceEndpointEmbeddings
+import os
 EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 
-embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
+embeddings = HuggingFaceEndpointEmbeddings(
+    model=EMBEDDING_MODEL,
+    huggingfacehub_api_token=os.getenv("HF_TOKEN")
+)
 
 vector_store = Chroma(
     collection_name="store_knowledge",
