@@ -30,23 +30,30 @@ async def receive_message(request: Request):
 
     try:
         entry = data["entry"][0]["changes"][0]["value"]
+
+        # ✅ FIX 1: ignore status updates (delivered, read, failed)
+        if "messages" not in entry:
+            return {"status": "ignored"}
+
         message = entry["messages"][0]
+
+        # ✅ FIX 2: ignore non-text messages (images, reactions, etc.)
+        if message.get("type") != "text":
+            return {"status": "ignored"}
+
         from_number = message["from"]
         text = message["text"]["body"]
+
     except (KeyError, IndexError):
         return {"status": "ignored"}
 
-    # Run agent — use sender's number as thread_id for per-user memory
     config = {"configurable": {"thread_id": from_number}}
     result = graph.invoke(
         {"messages": [HumanMessage(content=text)]},
         config=config
     )
 
-    # Get last AI message
     reply = result["messages"][-1].content
-
-    # Send reply back via WhatsApp
     send_message(from_number, reply)
     return {"status": "ok"}
 
