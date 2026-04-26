@@ -4,6 +4,10 @@ from fastapi import FastAPI, Request
 from fastapi.responses import PlainTextResponse
 from graph import graph
 from langchain_core.messages import HumanMessage
+from ingest import ingest
+
+# Populate ChromaDB on every startup
+ingest()
 
 app = FastAPI()
 
