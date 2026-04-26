@@ -48,6 +48,7 @@ async def receive_message(request: Request):
 
 
 def send_message(to: str, text: str):
+    udef send_message(to: str, text: str):
     url = f"https://graph.facebook.com/v19.0/{PHONE_NUMBER_ID}/messages"
     headers = {
         "Authorization": f"Bearer {WHATSAPP_TOKEN}",
@@ -59,4 +60,6 @@ def send_message(to: str, text: str):
         "type": "text",
         "text": {"body": text}
     }
-    requests.post(url, json=payload, headers=headers)
+    response = requests.post(url, json=payload, headers=headers)
+    print("STATUS:", response.status_code)
+    print("RESPONSE:", response.text)
