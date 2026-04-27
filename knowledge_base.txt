@@ -1,28 +1,160 @@
+=== ABOUT THE STORE ===
+
+Welcome to Nour Store — a Moroccan online fashion boutique based in Casablanca.
+We sell women's and men's casual and semi-formal clothing, including djellabas, abayas, traditional kaftans, modern streetwear, and accessories.
+All our products are curated from local Moroccan manufacturers and selected international suppliers.
+Our website: www.nour-store.ma
+We ship across all of Morocco and process orders 7 days a week.
+
+
+=== PRODUCT CATALOG ===
+
+-- Women's Collection --
+
+Kaftan Nour Classique
+- Description: Semi-formal kaftan in silk-blend fabric. Available in 6 colors: ivory, blush pink, royal blue, emerald, burgundy, and black.
+- Sizes: XS, S, M, L, XL, XXL
+- Price: 480 MAD
+- Care: Hand wash cold, do not tumble dry.
+
+Abaya Moderne
+- Description: Lightweight open-front abaya in crepe fabric. Minimalist design. Available in black, navy, and camel.
+- Sizes: S, M, L, XL, XXL
+- Price: 350 MAD
+- Care: Machine wash cold, gentle cycle.
+
+Robe Casual Lina
+- Description: Everyday midi dress in cotton jersey. Ideal for home, errands, or casual outings. Available in 8 colors.
+- Sizes: XS, S, M, L, XL
+- Price: 180 MAD
+- Care: Machine wash 30°C.
+
+Jilbab Deux Pièces Satin
+- Description: Two-piece satin jilbab set (top + skirt). Elegant finish for formal occasions. Available in beige, grey, and black.
+- Sizes: S, M, L, XL
+- Price: 420 MAD
+
+Set Loungewear Femme
+- Description: Matching top and wide-leg pants in soft ribbed fabric. Perfect for home. Available in 5 colors.
+- Sizes: XS, S, M, L, XL
+- Price: 220 MAD
+
+-- Men's Collection --
+
+Djellaba Homme Classique
+- Description: Traditional Moroccan djellaba in wool blend. Available in beige, white, grey, and dark brown.
+- Sizes: S, M, L, XL, XXL
+- Price: 520 MAD
+- Care: Dry clean recommended.
+
+Polo Premium Homme
+- Description: Slim-fit polo shirt in breathable piqué cotton. Available in 10 colors.
+- Sizes: S, M, L, XL, XXL
+- Price: 150 MAD
+- Care: Machine wash 40°C.
+
+Pantalon Chino Slim
+- Description: Smart casual chino trousers with stretch fabric. Available in khaki, navy, olive, and black.
+- Sizes: 38, 40, 42, 44, 46
+- Price: 230 MAD
+
+Gandoura Légère Été
+- Description: Light summer gandoura in linen. Casual and breathable for hot weather. Available in white, light blue, and sand.
+- Sizes: S, M, L, XL
+- Price: 190 MAD
+
+-- Accessories --
+
+Ceinture Cuir Artisanale
+- Description: Handcrafted leather belt from Fès artisans. Available in brown and black.
+- Sizes: 85cm, 90cm, 95cm, 100cm
+- Price: 95 MAD
+
+Foulard Soie Marocaine
+- Description: 100% silk scarf with traditional Moroccan patterns. Multiple colorways.
+- One size (180 x 90 cm)
+- Price: 130 MAD
+
+Sac à Main Cuir Artisanal
+- Description: Handmade leather handbag in Moroccan style. Multiple compartments. Available in tan, black, and red.
+- Price: 380 MAD
+
+-- Kids' Collection --
+
+Caftan Fille Mini Nour
+- Description: Mini kaftan for girls aged 3–12. Available in pink, lilac, and turquoise.
+- Sizes: 3–4 ans, 5–6 ans, 7–8 ans, 9–10 ans, 11–12 ans
+- Price: 220 MAD
+
+Djellaba Garçon Classique
+- Description: Traditional djellaba for boys aged 3–12. Available in beige and white.
+- Sizes: 3–4 ans, 5–6 ans, 7–8 ans, 9–10 ans, 11–12 ans
+- Price: 250 MAD
+
+
+=== SIZE GUIDE ===
+
+Women's Clothing (Robe, Kaftan, Abaya, Jilbab):
+- XS → Bust: 80–84 cm | Waist: 60–64 cm | Hips: 85–89 cm
+- S  → Bust: 84–88 cm | Waist: 64–68 cm | Hips: 89–93 cm
+- M  → Bust: 88–92 cm | Waist: 68–72 cm | Hips: 93–97 cm
+- L  → Bust: 92–96 cm | Waist: 72–76 cm | Hips: 97–101 cm
+- XL → Bust: 96–100 cm | Waist: 76–80 cm | Hips: 101–105 cm
+- XXL → Bust: 100–106 cm | Waist: 80–86 cm | Hips: 105–111 cm
+
+Men's Djellaba / Gandoura:
+- S  → Height: 160–165 cm
+- M  → Height: 165–170 cm
+- L  → Height: 170–175 cm
+- XL → Height: 175–180 cm
+- XXL → Height: 180–185 cm
+
+Men's Trousers (Chino):
+European sizing 38–46. If between sizes, size up.
+
+If you are unsure about your size, contact us on WhatsApp with your measurements and we will advise.
+
+
 === SHIPPING POLICY ===
+
 We deliver across all of Morocco. Standard delivery takes 2–5 business days depending on your city.
 
 Cities with 2–3 day delivery: Casablanca, Rabat, Salé, Témara, Kenitra, Marrakech, Fès, Meknès, Tanger, Agadir, Oujda, Tétouan.
+
 Remote areas (Laâyoune, Dakhla, Errachidia, Zagora, Guelmim) may take 5–7 business days.
+
 Delivery to rural addresses (douar, commune rurale) may take up to 10 days.
 
 Shipping is FREE on orders above 400 MAD.
+
 Orders below 400 MAD have a flat shipping fee of 35 MAD.
 
 You will receive an SMS with a tracking link once your order is dispatched.
+
 If you haven't received your SMS within 24 hours of placing your order, please contact support.
 
 We currently ship within Morocco only. International shipping is not available.
 
+
 === CASH ON DELIVERY (COD) ===
+
 Cash on delivery is available nationwide. You pay the delivery agent in cash when you receive your order.
+
 COD orders require a phone number that is reachable — the delivery agent will call before arriving.
+
 If the delivery agent cannot reach you after 2 attempts, the order is returned and a reshipping fee of 35 MAD applies.
+
 Please make sure the exact amount is ready — delivery agents may not carry change.
+
 COD is not available for orders above 2000 MAD. For large orders, card payment is required.
 
+
 === RETURNS & REFUNDS ===
+
 You can return any item within 14 days of the delivery date.
+
 Items must be unused, unwashed, and in their original packaging with tags attached.
+
 Worn, washed, or damaged items will not be accepted for return.
 
 To initiate a return:
@@ -41,13 +173,20 @@ Items that CANNOT be returned:
 
 If you received a wrong or defective item, we will replace it at no cost. Send us a photo on WhatsApp.
 
+
 === EXCHANGES ===
+
 We offer exchanges within 14 days of delivery for a different size or color, subject to availability.
+
 To request an exchange, contact us on WhatsApp with your order number and the item you want instead.
+
 If the replacement item costs more, you pay the difference. If it costs less, we issue store credit.
+
 Exchange shipping is free if the original item was delivered correctly.
 
+
 === PAYMENT METHODS ===
+
 We accept:
 - Cash on delivery (COD) — available nationwide.
 - Credit and debit cards: Visa, Mastercard (Moroccan and international cards).
@@ -61,34 +200,102 @@ We do NOT accept:
 
 All prices are listed in Moroccan Dirhams (MAD). No hidden fees.
 
+
 === ORDER TRACKING ===
+
 You can track your order using the SMS link sent to your phone after dispatch.
+
 If the link doesn't work or you didn't receive an SMS, contact us with your order number and we'll check manually.
+
 Orders can be cancelled within 1 hour of placement if not yet shipped. After that, cancellation is not possible.
+
 If your order has been "Processing" for more than 48 hours, contact support — this is not normal.
 
+
 === DELIVERY ISSUES ===
+
 If your package arrives damaged, take photos immediately and contact us within 24 hours.
+
 If the tracking shows "Delivered" but you haven't received anything, check with neighbors first, then contact us within 48 hours.
+
 If the delivery failed because you were unavailable, the carrier will attempt redelivery once. After that, you must collect from their local agency or request reshipping (35 MAD fee).
 
+
 === PRODUCT AVAILABILITY & STOCK ===
+
 If a product shows "Out of Stock", you can join the waitlist by clicking "Notify Me" on the product page.
+
 We restock popular items every 2 weeks. Restock dates are announced on our Instagram page.
+
 Product colors and sizes shown in photos are as accurate as possible, but slight color variation may occur due to screen settings.
+
 Custom and personalized orders take 3–5 extra business days before shipping.
 
+
 === PROMOTIONS & DISCOUNT CODES ===
+
 Discount codes must be applied at checkout — they cannot be applied after an order is placed.
+
 Only one discount code can be used per order.
+
 Discount codes cannot be combined with ongoing sale prices.
+
 Expired or invalid codes cannot be reactivated.
+
 If your code isn't working, contact us before placing the order.
 
+Current active promotions:
+- NOUR10 → 10% off your first order (new customers only).
+- RAMADAN25 → 25% off kaftans and djellabas (valid during Ramadan season only).
+- FREESHIP → Free shipping on any order size (limited time).
+
+
+=== LOYALTY PROGRAM — NOUR POINTS ===
+
+Every purchase earns you Nour Points:
+- 1 MAD spent = 1 Nour Point
+- 100 Nour Points = 10 MAD store credit
+
+Points are credited to your account after delivery is confirmed.
+Points cannot be earned on orders paid with store credit.
+Points expire after 12 months of account inactivity.
+
+To check your points balance, log into your account at www.nour-store.ma or ask the support agent with your phone number.
+
+
+=== FREQUENTLY ASKED QUESTIONS ===
+
+Q: Can I change my delivery address after placing an order?
+A: Yes, but only within 1 hour of placing the order and if it hasn't been dispatched yet. Contact us immediately on WhatsApp.
+
+Q: I ordered the wrong size. What do I do?
+A: Contact us within 1 hour of placing the order to correct it for free. If the order is already dispatched, you'll need to go through the exchange process after delivery.
+
+Q: Can I order by phone or WhatsApp instead of the website?
+A: Yes. Send us a message on WhatsApp with the product name, size, color, and your delivery address. We'll confirm availability and process your order manually.
+
+Q: How do I know my size?
+A: Refer to our size guide above, or send us your measurements on WhatsApp and we'll advise.
+
+Q: The item I received doesn't match the photo. What do I do?
+A: Send us a photo on WhatsApp within 24 hours. If there's a genuine color or design mismatch beyond normal screen variation, we'll arrange a free replacement or full refund.
+
+Q: Can I buy as a gift? Do you offer gift wrapping?
+A: Yes, we offer gift wrapping for 20 MAD extra. Add a note at checkout with the recipient's name and we'll include a handwritten card.
+
+Q: I haven't received my order and it's been 6 days.
+A: First check your SMS tracking link. If the status shows no movement for 48 hours, contact us — we'll open an investigation with the carrier.
+
+Q: Are your djellabas true to size?
+A: Our djellabas are sized by height, not weight. Check the size guide above. If you're between sizes, we recommend sizing up for a traditional drape, or staying at your size for a more fitted look.
+
+
 === CONTACT & SUPPORT ===
+
 WhatsApp (fastest): +212-6XX-XXXXXX
-Email: support@example-store.ma
-Instagram DM: @example.store.ma
+Email: support@nour-store.ma
+Instagram DM: @nour.store.ma
+Website: www.nour-store.ma
 
 Support hours: Monday to Saturday, 9:00 AM – 6:00 PM (Morocco time).
 We are closed on Sundays and Moroccan public holidays.
