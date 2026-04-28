@@ -18,7 +18,7 @@ def search_knowledge_base(query: str) -> str:
 def lookup_order(order_id: str) -> str:
     """Look up order status, items, carrier, and estimated delivery by order ID."""
 
-    # TODO: replace with real DB query
+    # I should replace this with real db 
     FAKE_ORDERS = {
 
         # ── Confirmed / Processing ──────────────────────────────────────────
