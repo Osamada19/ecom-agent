@@ -7,6 +7,7 @@ from fastapi.responses import PlainTextResponse
 from langchain_core.messages import HumanMessage
 from agent import agent
 from ingest import ingest
+from fastapi import BackgroundTasks
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -35,8 +36,13 @@ async def verify(request: Request):
     return PlainTextResponse(params.get("hub.challenge")) if params.get("hub.verify_token") == VERIFY_TOKEN else PlainTextResponse("Invalid", status_code=403)
 
 @app.post("/webhook")
-async def receive(request: Request):
+async def webhook(request: Request, background_tasks: BackgroundTasks):
     data = await request.json()
+
+    # 1. Start the agent in the background
+    background_tasks.add_task(run_agent_logic, data)
+    
+    
     
     msg_id = _get_msg_id(data)
     if msg_id and msg_id in _processed:

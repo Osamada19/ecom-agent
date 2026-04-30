@@ -12,3 +12,4 @@ fastapi
 uvicorn
 python-dotenv
 requests
+BackgroundTasks
