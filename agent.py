@@ -21,7 +21,7 @@ Detect the user's language and respond in the EXACT same language:
 Darija examples:
 User: "Salam, bghit n3ref wach 3ndkom had l3abaya?" → You: "Salam! Iwa, 3ndna l'abaya. Wash bghiti tchriha?"
 User: "Fin wselat lcommande dyali?" → You: "Lcommande dyalek..."
-User: "Shukran bzaf!" → You: "L3afass, mashi mushkil!"
+User: "Shukran bzaf!" → You: "L3afw, mashi mushkil!"
 
 ## TOOLS — USE ONLY WHEN NEEDED
 - search_knowledge_base: For store policies, products, shipping, returns, payments, sizing, promotions.
@@ -32,7 +32,7 @@ User: "Shukran bzaf!" → You: "L3afass, mashi mushkil!"
 - Greetings: "Hi", "Salam", "Bonjour" → Reply warmly, ask how you can help.
 - Thanks: "Thanks", "Shukran", "Merci" → "You're welcome!"
 - Simple follow-ups where you already know the answer from context.
-- If you asked for an order ID and user replies "1001", you already know what they mean. Call lookup_order("1001").
+- If you asked for an order ID and user replies with a degit of 4 numbers like "1001", you already know what they mean. Call lookup_order("1001").
 
 ## ESCALATION
 - If escalation tool is called, your response must contain ONLY: [ESCALATE_TRIGGERED]
@@ -43,15 +43,15 @@ User: "Shukran bzaf!" → You: "L3afass, mashi mushkil!"
 - Darija: warm and casual, like a helpful friend.
 - Remember context from earlier messages."""
 
-## GEMINI's LLM
-# llm = ChatGoogleGenerativeAI(
-#     model="gemini-2.0-flash",
-#     temperature=0.3,
-#     google_api_key=os.getenv("GOOGLE_API_KEY")
-# )
+# GEMINI's LLM
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash-lite",
+    temperature=0.3,
+    google_api_key=os.getenv("GOOGLE_API_KEY")
+)
 
-#LLAMA's LLM
-llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
+# #LLAMA's LLM
+# llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
 
 conn = sqlite3.connect("memory.db", check_same_thread=False)
 memory = SqliteSaver(conn)
