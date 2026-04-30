@@ -54,6 +54,6 @@ memory = SqliteSaver(conn)
 agent = create_react_agent(
     model=llm,
     tools=ALL_TOOLS,
-    state_modifier=SYSTEM_PROMPT,
+    prompt=SYSTEM_PROMPT,
     checkpointer=memory,
 )
