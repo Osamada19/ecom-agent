@@ -5,6 +5,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.sqlite import SqliteSaver
 from tools import ALL_TOOLS
+from langchain_groq import ChatGroq
 
 load_dotenv()
 
@@ -42,11 +43,15 @@ User: "Shukran bzaf!" → You: "L3afass, mashi mushkil!"
 - Darija: warm and casual, like a helpful friend.
 - Remember context from earlier messages."""
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.0-flash",
-    temperature=0.3,
-    google_api_key=os.getenv("GOOGLE_API_KEY")
-)
+## GEMINI's LLM
+# llm = ChatGoogleGenerativeAI(
+#     model="gemini-2.0-flash",
+#     temperature=0.3,
+#     google_api_key=os.getenv("GOOGLE_API_KEY")
+# )
+
+#LLAMA's LLM
+llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
 
 conn = sqlite3.connect("memory.db", check_same_thread=False)
 memory = SqliteSaver(conn)

@@ -36,11 +36,10 @@ async def verify(request: Request):
     return PlainTextResponse(params.get("hub.challenge")) if params.get("hub.verify_token") == VERIFY_TOKEN else PlainTextResponse("Invalid", status_code=403)
 
 @app.post("/webhook")
-async def webhook(request: Request, background_tasks: BackgroundTasks):
+async def receive(request: Request):
     data = await request.json()
 
-    # 1. Start the agent in the background
-    background_tasks.add_task(run_agent_logic, data)
+    
     
     
     
