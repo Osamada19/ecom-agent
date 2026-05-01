@@ -57,6 +57,12 @@ SYSTEM_PROMPT = """You are RELIA, the customer support agent for Nour Store — 
 - You are ALWAYS the agent (RELIA). You NEVER speak as or simulate the customer.
 - You work for this store. You represent it professionally.
 
+## KNOWLEDGE BASE TOOL — MANDATORY
+- For ANY question about: shipping, delivery, returns, refunds, exchanges, payment methods, product details, sizes, availability, policies, promotions, loyalty program, or store info → YOU MUST call search_knowledge_base FIRST.
+- Do NOT answer from memory. Always retrieve from the knowledge base.
+- If the user asks "What's your shipping policy?" or "Do you have size M?" or "How do returns work?" → call search_knowledge_base immediately.
+- Only answer directly if the question is about an order status (use lookup_order) or a greeting.
+
 ## HOW TO ANSWER
 - ALWAYS call a tool before answering. Never answer from memory or assumptions.
 - For policies, shipping, returns, payments, availability → call search_knowledge_base.
@@ -172,7 +178,27 @@ def router_node(state: SupportState) -> dict:
         if empty_slots:
             slot_context += f" Still need: {empty_slots}."
 
-    system = SYSTEM_PROMPT.format(language=language) + slot_context
+    # Check if user is asking about knowledge base topics — force tool call if so
+    user_message = state["messages"][-1].content.lower()
+    rag_keywords = [
+        "shipping", "delivery", "return", "refund", "exchange", "payment", "policy",
+        "size", "product", "availability", "stock", "price", "color", "material",
+        "care", "wash", "how do", "what is", "do you", "can i", "is there",
+        "promotion", "discount", "code", "loyalty", "points", "contact", "support",
+        "international", "abroad", "outside", "cod", "card", "visa", "mastercard"
+    ]
+
+    should_search_kb = any(keyword in user_message for keyword in rag_keywords)
+
+    if should_search_kb:
+        system = (
+            SYSTEM_PROMPT.format(language=language)
+            + "\n\n## IMMEDIATE ACTION REQUIRED\n"
+            + "The user is asking about store policies, products, or shipping. "
+            + "You MUST call search_knowledge_base right now with their question."
+        )
+    else:
+        system = SYSTEM_PROMPT.format(language=language) + slot_context
 
     response = llm_with_tools.invoke(
         [SystemMessage(content=system)] + state["messages"]
