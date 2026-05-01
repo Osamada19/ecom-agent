@@ -37,12 +37,9 @@ def _get_message_id(data: dict) -> str:
         pass
     return None
 
-# ── Ingest knowledge base (only if empty) ─────────────────────────────────────
-if not os.path.exists("./chroma_db") or not os.listdir("./chroma_db"):
-    logger.info("ChromaDB not found, running ingest...")
-    ingest()
-else:
-    logger.info("ChromaDB already exists, skipping ingest.")
+# ── Always ingest on startup to ensure knowledge base is loaded ────────────────
+logger.info("Loading knowledge base into ChromaDB...")
+ingest()
 
 # ── Verify ChromaDB has content after ingest ───────────────────────────────────
 try:
