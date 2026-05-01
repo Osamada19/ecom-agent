@@ -147,8 +147,8 @@ def slot_filler(state: SupportState) -> dict:
             if len(last_message.split()) <= 3 or last_message.isdigit():
                 pending_slots[slot_name] = last_message
                 return {
-                    "pending_slots": pending_slots,
-                    "messages": []  # Don't add new message, let router handle it
+                    "pending_slots": pending_slots
+                    # Don't return empty messages - let the message flow through
                 }
 
     return {}
@@ -168,9 +168,15 @@ def router_node(state: SupportState) -> dict:
         filled_slots = {k: v for k, v in pending_slots.items() if v is not None}
 
         if filled_slots:
-            slot_context = f"\n\nPENDING CONTEXT: You are handling \"{pending_intent}\". Already have: {filled_slots}."
+            slot_context = (
+                f"\n\n## FILLED SLOT CONTEXT — USE IMMEDIATELY\n"
+                f"You are handling intent: \"{pending_intent}\".\n"
+                f"The user has already provided: {filled_slots}.\n"
+                f"You MUST call the appropriate tool now using these values. "
+                f"For example, if order_id is filled, call lookup_order with that order_id right away."
+            )
         if empty_slots:
-            slot_context += f" Still need: {empty_slots}."
+            slot_context += f"\nStill need from user: {empty_slots}."
 
     system = SYSTEM_PROMPT.format(language=language) + slot_context
 
@@ -182,9 +188,17 @@ def router_node(state: SupportState) -> dict:
     new_pending = None
     new_slots = {}
 
-    # Simple heuristic: if response asks for order ID, set pending intent
+    last_message = state["messages"][-1].content.strip()
+    is_short_reply = len(last_message.split()) <= 3 or last_message.isdigit()
+
     content_lower = response.content.lower()
-    if "order id" in content_lower or "order number" in content_lower or "numéro de commande" in content_lower:
+
+    if is_short_reply and pending_intent:
+        # User gave a short answer to a pending question — keep the intent alive
+        # until all slots are filled; only update if the response is asking for more
+        new_pending = pending_intent
+        new_slots = pending_slots
+    elif "order id" in content_lower or "order number" in content_lower or "numéro de commande" in content_lower:
         new_pending = "track_order"
         new_slots = {"order_id": None}
     elif "city" in content_lower or "ville" in content_lower:
