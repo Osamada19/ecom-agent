@@ -44,6 +44,18 @@ if not os.path.exists("./chroma_db") or not os.listdir("./chroma_db"):
 else:
     logger.info("ChromaDB already exists, skipping ingest.")
 
+# ── Verify ChromaDB has content after ingest ───────────────────────────────────
+try:
+    from vector_store import vector_store
+    collection = vector_store._collection
+    count = collection.count() if hasattr(collection, "count") else 0
+    if count == 0:
+        logger.warning("⚠️  ChromaDB is empty! Knowledge base may not be loaded.")
+    else:
+        logger.info(f"✅ ChromaDB loaded with {count} documents")
+except Exception as e:
+    logger.error(f"❌ Failed to check ChromaDB status: {e}")
+
 app = FastAPI()
 
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
