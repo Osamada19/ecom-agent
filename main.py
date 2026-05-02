@@ -14,7 +14,20 @@ logger = logging.getLogger(__name__)
 
 _processed = set()
 
-if not os.path.exists("./chroma_db") or not os.listdir("./chroma_db"):
+# ── Ingest knowledge base (only if empty) ─────────────────────────────────────
+try:
+    from vector_store import vector_store
+    collection = vector_store._collection
+    count = collection.count() if hasattr(collection, "count") else 0
+
+    if count == 0:
+        logger.info("ChromaDB is empty, running ingest...")
+        ingest()
+    else:
+        logger.info(f"ChromaDB already has {count} documents, skipping ingest.")
+except Exception as e:
+    logger.error(f"Failed to check ChromaDB status: {e}")
+    logger.info("Attempting ingest anyway...")
     ingest()
 
 app = FastAPI()
