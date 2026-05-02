@@ -1,12 +1,9 @@
 from langchain_chroma import Chroma
-from langchain_huggingface import HuggingFaceEndpointEmbeddings
-import os
+from langchain_huggingface import HuggingFaceEmbeddings
+
 EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 
-embeddings = HuggingFaceEndpointEmbeddings(
-    model=EMBEDDING_MODEL,
-    huggingfacehub_api_token=os.getenv("HF_TOKEN")
-)
+embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
 
 vector_store = Chroma(
     collection_name="store_knowledge",
@@ -15,6 +12,6 @@ vector_store = Chroma(
 )
 
 retriever = vector_store.as_retriever(
-    search_type="mmr",            # MMR reduces redundant chunks
+    search_type="mmr",
     search_kwargs={"k": 4, "fetch_k": 10},
 )
