@@ -1,9 +1,11 @@
 from langchain_chroma import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+import os
 
-EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-
-embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
+embeddings = GoogleGenerativeAIEmbeddings(
+    model="models/embedding-001",
+    google_api_key=os.getenv("GOOGLE_API_KEY")
+)
 
 vector_store = Chroma(
     collection_name="store_knowledge",

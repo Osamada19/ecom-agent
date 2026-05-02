@@ -5,9 +5,9 @@ langchain-google-genai
 langgraph
 langgraph-checkpoint-sqlite
 langchain-chroma
-langchain-huggingface
+
 chromadb
-sentence-transformers
+
 fastapi
 uvicorn
 python-dotenv
