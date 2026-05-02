@@ -1,15 +1,14 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
 
 langchain
-langchain-google-genai
-langgraph
-langgraph-checkpoint-sqlite
+langchain-groq
 langchain-chroma
 langchain-huggingface
+langgraph
+langdetect
 chromadb
 sentence-transformers
 fastapi
 uvicorn
-python-dotenv
-requests
-langchain_groq
+langgraph-checkpoint-sqlite
+langchain-google-genai

@@ -1,19 +1,28 @@
-
 from langchain_core.tools import tool
 from vector_store import retriever
 
+# ── Tool 1: Knowledge Base Search (RAG — retrieval only, no LLM) ──────────────
+
 @tool
 def search_knowledge_base(query: str) -> str:
-    """Search store policies, products, shipping, returns, payments, sizing."""
+    """Search store policies: shipping, returns, payments, availability, contact."""
     docs = retriever.invoke(query)
     if not docs:
-        return "No relevant information found."
-    return "\n\n---\n\n".join([d.page_content for d in docs])
+        return "No relevant information found in the knowledge base."
+    return "\n\n---\n\n".join([doc.page_content for doc in docs])
+
+
+# ── Tool 2: Order Lookup ───────────────────────────────────────────────────────
 
 @tool
 def lookup_order(order_id: str) -> str:
-    """Look up order status by order ID (4-digit number)."""
-    FAKE_ORDERS = {  "1001": {
+    """Look up order status, items, carrier, and estimated delivery by order ID."""
+
+    # I should replace this with real db 
+    FAKE_ORDERS = {
+
+        # ── Confirmed / Processing ──────────────────────────────────────────
+        "1001": {
             "customer": "Fatima Zahra B.",
             "status": "Confirmed",
             "items": "Kaftan Nour Classique (M, blush pink) x1",
@@ -230,18 +239,39 @@ def lookup_order(order_id: str) -> str:
             "order_date": "2025-04-20",
             "carrier": "DHL",
             "eta": "1–2 business days (priority shipping)",
-            "notes": "COD not available for this order value — paid by card.", 
-        }
-    
+            "notes": "COD not available for this order value — paid by card.",
+        },
     }
+
     order = FAKE_ORDERS.get(str(order_id).strip())
+
     if not order:
-        return f"No order found with ID '{order_id}'. Please check and try again."
-    return f"📦 Order #{order_id}\nStatus: {order['status']}\nItems: {order['items']}\nTotal: {order['total']}\nCity: {order['city']}\nETA: {order['eta']}"
+        return (
+            f"No order found with ID '{order_id}'. "
+            "Please double-check the order number and try again. "
+            "Order IDs are 4-digit numbers (e.g. 1004)."
+        )
+
+    return (
+        f"📦 Order #{order_id}\n"
+        f"  Customer : {order['customer']}\n"
+        f"  Status   : {order['status']}\n"
+        f"  Items    : {order['items']}\n"
+        f"  Total    : {order['total']} ({order['payment']})\n"
+        f"  City     : {order['city']}\n"
+        f"  Ordered  : {order['order_date']}\n"
+        f"  Carrier  : {order['carrier']}\n"
+        f"  ETA/Info : {order['eta']}"
+        + (f"\n  Note     : {order['notes']}" if order['notes'] else "")
+    )
+
+
+# ── Tool 3: Escalate to Human ─────────────────────────────────────────────────
 
 @tool
 def escalate_to_human(reason: str) -> str:
-    """Escalate to human agent. Use ONLY when user explicitly asks for human or is extremely angry."""
-    return "[ESCALATE_TRIGGERED]"
+    """Escalate to a human agent when customer requests it or issue is complex."""
+    return f"__ESCALATE__:{reason}"
+
 
 ALL_TOOLS = [search_knowledge_base, lookup_order, escalate_to_human]
