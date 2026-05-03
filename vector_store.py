@@ -3,7 +3,7 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import os
 
 embeddings = GoogleGenerativeAIEmbeddings(
-    model="models/text-multilingual-embedding-002",
+    model="models/embedding-001",
     google_api_key=os.getenv("GOOGLE_API_KEY")
 )
 
