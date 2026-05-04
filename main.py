@@ -14,8 +14,8 @@ logger = logging.getLogger(__name__)
 
 _processed = set()
 
-if not os.path.exists("./chroma_db") or not os.listdir("./chroma_db"):
-    ingest()
+
+ingest()
 
 app = FastAPI()
 
