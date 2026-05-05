@@ -49,14 +49,14 @@ User: "Shukran bzaf!" → You: "L3afw, mashi mushkil!"
 - Remember context from earlier messages."""
 
 # GEMINI's LLM
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
-    temperature=0,
-    google_api_key=os.getenv("GOOGLE_API_KEY")
-)
+# llm = ChatGoogleGenerativeAI(
+#     model="gemini-2.5-flash",
+#     temperature=0,
+#     google_api_key=os.getenv("GOOGLE_API_KEY")
+# )
 
-# #LLAMA's LLM
-# llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
+#LLAMA's LLM
+llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
 
 conn = sqlite3.connect("memory.db", check_same_thread=False)
 memory = SqliteSaver(conn)
