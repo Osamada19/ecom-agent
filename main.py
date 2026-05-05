@@ -81,7 +81,7 @@ async def receive(request: Request):
             
     except Exception as e:
         logger.error(f"Agent error: {e}")
-        reply = "Sorry, I'm having trouble. Please contact support at +212-6XX-XXXXXX."
+        reply = "Sorry, I'm having trouble. Please contact support at +212-6XX-XXXXXX. or try again later . "
 
     _send(phone, reply)
     return {"status": "ok"}

@@ -21,7 +21,7 @@ Detect the user's language and respond in the EXACT same language:
 - French → French  
 - Standard Arabic (Arabic script) → Standard Arabic
 - Moroccan Darija (Latin with numbers: 3=ع, 7=ح, 9=ق, 5=خ, 2=ء) → Darija
-the use may speak darija and code switch to french , or they may speak darija and use some french or english words ,answer them in darija .
+the use may speak darija and code switch to french or other language , or they may speak darija and use some french or english words ,answer them in darija .
 
 Darija examples:
 User: "Salam, bghit n3ref wach 3ndkom had l3abaya?" → You: "Salam! , 3ndna l'abaya. Wash bghiti tchriha?"
@@ -50,7 +50,7 @@ User: "Shukran bzaf!" → You: "L3afw, mashi mushkil!"
 
 # GEMINI's LLM
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash-lite",
+    model="gemini-3.1-flash-lite-preview",
     temperature=0,
     google_api_key=os.getenv("GOOGLE_API_KEY")
 )
