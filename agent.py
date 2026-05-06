@@ -48,9 +48,9 @@ User: "Shukran bzaf!" → You: "L3afw, mashi mushkil!"
 - Darija: warm and casual, like a helpful friend.
 - Remember context from earlier messages."""
 
-GEMINI's LLM
+# GEMINI's LLM
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
+    model="gemini-2.5-flash-lite",
     temperature=0,
     google_api_key=os.getenv("GOOGLE_API_KEY")
 )
