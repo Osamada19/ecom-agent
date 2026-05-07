@@ -59,12 +59,7 @@ async def receive(request: Request):
     except Exception:
         return {"status": "ignored"}
 
-    # INPUT GUARD
-    text_stripped = text.strip()
-    if len(text_stripped) < 2 :
-        _send(phone, "I didn't catch that. Could you please rephrase your question?")
-        return {"status": "gibberish"}
-
+    
     try:
         result = agent.invoke(
             {"messages": [HumanMessage(content=text)]},
