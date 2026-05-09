@@ -1,6 +1,9 @@
 
 from langchain_core.tools import tool
 from vector_store import retriever
+import os
+import requests
+
 
 @tool
 def search_knowledge_base(query: str) -> str:
@@ -244,4 +247,45 @@ def escalate_to_human(reason: str) -> str:
     """Escalate to human agent. Use ONLY when user explicitly asks for human or is extremely angry."""
     return "[ESCALATE_TRIGGERED]"
 
-ALL_TOOLS = [search_knowledge_base, lookup_order, escalate_to_human]
+
+
+@tool
+def notify_owner(order_summary: str) -> str:
+    """
+    Send a draft order to the store owner for confirmation.
+    
+    STRICT CONDITIONS — call this tool ONLY when ALL of these are true:
+    1. The user has explicitly stated they want to place an order 
+       (e.g. 'I want to order', 'I want to buy', 'confirm my order').
+    2. You have collected: product name, color, size, quantity, 
+       customer name, delivery address, and payment method.
+    
+    Do NOT call this just because you know product details from 
+    a product question. Intent to buy must be explicit.
+
+    """
+    owner_number = os.getenv("OWNER_PHONE")  # e.g. 212661XXXXXX
+    token = os.getenv("WHATSAPP_TOKEN")
+    phone_id = os.getenv("PHONE_NUMBER_ID")
+
+    message = f"🛒 *New Order Request*\n\n{order_summary}\n\n_Collected by RELIA — please confirm with the customer._"
+
+    try:
+        requests.post(
+            f"https://graph.facebook.com/v19.0/{phone_id}/messages",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json={
+                "messaging_product": "whatsapp",
+                "to": owner_number,
+                "type": "text",
+                "text": {"body": message}
+            },
+            timeout=10
+        )
+        return "Order sent to store owner. Tell the customer: the owner will confirm their order shortly via WhatsApp."
+    except Exception as e:
+        return f"Failed to notify owner: {e}"
+
+
+
+ALL_TOOLS = [search_knowledge_base, lookup_order, escalate_to_human,notify_owner]

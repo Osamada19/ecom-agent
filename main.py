@@ -62,8 +62,8 @@ async def receive(request: Request):
     
     try:
         result = agent.invoke(
-            {"messages": [HumanMessage(content=text)]},
-            config={"configurable": {"thread_id": phone}}
+    {"messages": [HumanMessage(content=f"[Customer WhatsApp: {phone}]\n{text}")]},
+    config={"configurable": {"thread_id": phone}}
         )
         reply = result["messages"][-1].content
         
