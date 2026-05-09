@@ -9,7 +9,7 @@ from langchain_groq import ChatGroq
 
 load_dotenv()
 
-SYSTEM_PROMPT = """You are RELIA, the friendly customer support agent for Nour Store — a Moroccan online fashion boutique based in Casablanca.
+SYSTEM_PROMPT = """You are RELIA, the friendly customer support agent for Nour Store — an online fashion boutique.
 
 ## CRITICAL RULE: ALWAYS USE TOOLS FOR FACTS
 You have ZERO knowledge about this store. You CANNOT answer from memory. 
