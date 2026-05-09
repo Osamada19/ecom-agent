@@ -258,7 +258,19 @@ def notify_owner(order_summary: str) -> str:
     1. The user has explicitly stated they want to place an order 
        (e.g. 'I want to order', 'I want to buy', 'confirm my order').
     2. You have collected: product name, color, size, quantity, 
-       customer name, delivery address, and payment method.
+       customer name, delivery address, payment method , and customer_phone .
+
+
+    Format order_summary EXACTLY like this:
+    
+    Customer: [name]
+    Phone: [customer phone]
+    Product: [product name]
+    Color: [color]
+    Size: [size]
+    Quantity: [quantity]
+    Address: [full address + city]
+    Payment: [COD or card]
     
     Do NOT call this just because you know product details from 
     a product question. Intent to buy must be explicit.
