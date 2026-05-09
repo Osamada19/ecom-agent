@@ -59,7 +59,9 @@ async def receive(request: Request):
     except Exception:
         return {"status": "ignored"}
 
-    
+    if phone == os.getenv("OWNER_PHONE"):
+          return {"status": "ignored"}  # owner messages ignored by agent 
+
     try:
         result = agent.invoke(
     {"messages": [HumanMessage(content=f"[Customer WhatsApp: {phone}]\n{text}")]},

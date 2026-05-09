@@ -263,6 +263,11 @@ def notify_owner(order_summary: str) -> str:
     Do NOT call this just because you know product details from 
     a product question. Intent to buy must be explicit.
 
+   
+    BEFORE calling this tool, verify you have ALL of these in the CURRENT conversation:
+    - customer_name, product, color, size, quantity, address, city, payment_method, customer_phone .
+    If ANY is missing, ask for it first. Never call with incomplete data.
+
     """
     owner_number = os.getenv("OWNER_PHONE")  # e.g. 212661XXXXXX
     token = os.getenv("WHATSAPP_TOKEN")
