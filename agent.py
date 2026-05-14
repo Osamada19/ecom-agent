@@ -7,6 +7,7 @@ from langgraph.checkpoint.sqlite import SqliteSaver
 from tools import ALL_TOOLS
 from langchain_groq import ChatGroq
 from langchain_deepseek import ChatDeepSeek
+from langchain_openai import ChatOpenAI
 load_dotenv()
 
 SYSTEM_PROMPT = """You are RELIA, the friendly customer support agent for Nour Store — an online fashion boutique.
@@ -83,11 +84,18 @@ Never assume or reuse names from previous context.
 # #LLAMA's LLM
 # llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
 
-# DEEPSEEK's LLM 
-llm = ChatDeepSeek(
-    model="deepseek-v4-flash",
+# # DEEPSEEK's LLM 
+# llm = ChatDeepSeek(
+#     model="deepseek-v4-flash",
+#     temperature=0,
+#     api_key=os.getenv('DeepSeek_api_key')
+# )
+
+llm = ChatOpenAI(
+    model="deepseek/deepseek-v4-flash:free", 
     temperature=0,
-    api_key=os.getenv('DeepSeek_api_key')
+    openai_api_key=os.getenv("OPENROUTER_API_KEY"), 
+    openai_api_base="https://openrouter.ai" 
 )
 
 
