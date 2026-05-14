@@ -13,3 +13,4 @@ uvicorn
 python-dotenv
 requests
 langchain_groq
+langchain-deepseek

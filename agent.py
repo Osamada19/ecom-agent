@@ -6,7 +6,7 @@ from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.sqlite import SqliteSaver
 from tools import ALL_TOOLS
 from langchain_groq import ChatGroq
-
+from langchain_deepseek import ChatDeepSeek
 load_dotenv()
 
 SYSTEM_PROMPT = """You are RELIA, the friendly customer support agent for Nour Store — an online fashion boutique.
@@ -73,15 +73,23 @@ Never assume or reuse names from previous context.
 - Do not use Darija greetings (salam, zwina, wa7ed) when responding in English or French. """
 
 
-# GEMINI's LLM
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.0-flash-lite",
-    temperature=0,
-    google_api_key=os.getenv("GOOGLE_API_KEY")
-)
+# # GEMINI's LLM
+# llm = ChatGoogleGenerativeAI(
+#     model="gemini-2.0-flash-lite",
+#     temperature=0,
+#     google_api_key=os.getenv("GOOGLE_API_KEY")
+# )
 
 # #LLAMA's LLM
 # llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
+
+# DEEPSEEK's LLM 
+llm = ChatDeepSeek(
+    model="deepseek-v4-flash",
+    temperature=0,
+    api_key=os.getenv('DeepSeek_api_key')
+)
+
 
 conn = sqlite3.connect("memory.db", check_same_thread=False)
 memory = SqliteSaver(conn)
