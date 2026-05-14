@@ -75,7 +75,7 @@ Never assume or reuse names from previous context.
 
 # GEMINI's LLM
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.0-flash",
+    model="gemini-2.0-flash-lite",
     temperature=0,
     google_api_key=os.getenv("GOOGLE_API_KEY")
 )
