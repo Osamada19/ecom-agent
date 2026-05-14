@@ -81,8 +81,8 @@ Never assume or reuse names from previous context.
 #     google_api_key=os.getenv("GOOGLE_API_KEY")
 # )
 
-# #LLAMA's LLM
-# llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
+#LLAMA's LLM
+llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
 
 # # DEEPSEEK's LLM 
 # llm = ChatDeepSeek(
@@ -91,12 +91,12 @@ Never assume or reuse names from previous context.
 #     api_key=os.getenv('DeepSeek_api_key')
 # )
 
-llm = ChatOpenAI(
-    model="deepseek/deepseek-v4-flash:free", 
-    temperature=0,
-    openai_api_key=os.getenv("OPENROUTER_API_KEY"), 
-    openai_api_base="https://openrouter.ai/api/v1" 
-)
+# llm = ChatOpenAI(
+#     model="deepseek/deepseek-v4-flash:free", 
+#     temperature=0,
+#     openai_api_key=os.getenv("OPENROUTER_API_KEY"), 
+#     openai_api_base="https://openrouter.ai/api/v1" 
+# )
 
 
 conn = sqlite3.connect("memory.db", check_same_thread=False)
