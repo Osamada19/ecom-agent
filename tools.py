@@ -292,7 +292,7 @@ def notify_owner(order_summary: str) -> str:
     message = f"🛒 *New Order Request*\n\n{order_summary}\n\n_Collected by RELIA — please confirm with the customer._"
 
     try:
-        requests.post(
+        resp = requests.post(
             f"https://graph.facebook.com/v19.0/{phone_id}/messages",
             headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
             json={
@@ -303,6 +303,7 @@ def notify_owner(order_summary: str) -> str:
             },
             timeout=10
         )
+        resp.raise_for_status()
         return "Order sent to store owner. Tell the customer: the owner will confirm their order shortly via WhatsApp."
     except Exception as e:
         return f"Failed to notify owner: {e}"
