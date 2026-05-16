@@ -94,7 +94,7 @@ Never assume or reuse names from previous context.
 
 #openrouter
 llm = ChatOpenAI(
-    model="deepseek/deepseek-v3:free",
+    model="gpt-4o-mini",
     temperature=0,
     openai_api_key=os.getenv("OPENROUTER_API_KEY"), 
     openai_api_base="https://openrouter.ai/api/v1" 

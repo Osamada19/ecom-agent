@@ -9,12 +9,12 @@ import requests
 def search_knowledge_base(query: str) -> str:
     """Search store policies, products, shipping, returns, payments, sizing."""
     
-    # try:
-    docs = retriever.invoke(query)
-    if not docs:
-        return "No relevant information found."
-    return "\n\n---\n\n".join([d.page_content for d in docs])
-    # except:
+    try:
+        docs = retriever.invoke(query)
+        if not docs:
+            return "No relevant information found."
+        return "\n\n---\n\n".join([d.page_content for d in docs])
+    except:
     #     return "I'm having a quick technical hiccup accessing the database. Please try your question again in about 1 minute!"
 
 @tool
