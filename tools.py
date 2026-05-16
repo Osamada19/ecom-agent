@@ -267,14 +267,17 @@ def notify_owner(order_summary: str) -> str:
 
     Format order_summary EXACTLY like this:
     
-    Customer: [name]
-    Phone: [customer phone]
-    Product: [product name]
-    Color: [color]
-    Size: [size]
-    Quantity: [quantity]
-    Address: [full address + city]
-    Payment: [COD or card]
+     الاسم: [name]
+    الهاتف: [customer phone]
+    المنتج: [product name]
+    اللون: [color]
+    المقاس: [size]
+    الكمية: [quantity]
+    العنوان: [full address + city]
+    الدفع: [COD or card]
+
+    
+   
     
     Do NOT call this just because you know product details from 
     a product question. Intent to buy must be explicit.
@@ -289,7 +292,7 @@ def notify_owner(order_summary: str) -> str:
     token = os.getenv("WHATSAPP_TOKEN")
     phone_id = os.getenv("PHONE_NUMBER_ID")
 
-    message = f"🛒 *New Order Request*\n\n{order_summary}\n\n_Collected by RELIA — please confirm with the customer._"
+    message = f"🛒 *طلب جديد*\n\n{order_summary}\n\n_تم جمع الطلب بواسطة RELIA — يرجى تأكيده مع العميل._"
 
     try:
         resp = requests.post(
@@ -308,6 +311,16 @@ def notify_owner(order_summary: str) -> str:
     except Exception as e:
         return f"Failed to notify owner: {e}"
 
+### english order summary format 
+
+# Customer: [name]
+    # Phone: [customer phone]
+    # Product: [product name]
+    # Color: [color]
+    # Size: [size]
+    # Quantity: [quantity]
+    # Address: [full address + city]
+    # Payment: [COD or card]
 
 
 ALL_TOOLS = [search_knowledge_base, lookup_order, escalate_to_human,notify_owner]

@@ -8,6 +8,7 @@ from tools import ALL_TOOLS
 from langchain_groq import ChatGroq
 from langchain_deepseek import ChatDeepSeek
 from langchain_openai import ChatOpenAI
+
 load_dotenv()
 
 SYSTEM_PROMPT = """You are RELIA, the friendly customer support agent for Nour Store — an online fashion boutique.
@@ -81,8 +82,8 @@ Never assume or reuse names from previous context.
 #     google_api_key=os.getenv("GOOGLE_API_KEY")
 # )
 
-#LLAMA's LLM
-llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
+# #LLAMA's LLM
+# llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
 
 # # DEEPSEEK's LLM 
 # llm = ChatDeepSeek(
@@ -98,7 +99,12 @@ llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0,
 #     openai_api_base="https://openrouter.ai/api/v1" 
 # )
 
-
+#GBT LLM:
+llm = ChatOpenAI(
+    model="gpt-4o-mini", # Use "gpt-4o" if your agent needs maximum reasoning power
+    temperature=0,
+    api_key=os.getenv("OPENAI_API_KEY")
+)
 conn = sqlite3.connect("memory.db", check_same_thread=False)
 memory = SqliteSaver(conn)
 
