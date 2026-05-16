@@ -92,19 +92,22 @@ Never assume or reuse names from previous context.
 #     api_key=os.getenv('DeepSeek_api_key')
 # )
 
+#openrouter
+llm = ChatOpenAI(
+    model="deepseek/deepseek-v3:free",
+    temperature=0,
+    openai_api_key=os.getenv("OPENROUTER_API_KEY"), 
+    openai_api_base="https://openrouter.ai/api/v1" 
+)
+
+# #GBT LLM:
 # llm = ChatOpenAI(
-#     model="deepseek/deepseek-v4-flash:free", 
+#     model="gpt-4o-mini", # Use "gpt-4o" if your agent needs maximum reasoning power
 #     temperature=0,
-#     openai_api_key=os.getenv("OPENROUTER_API_KEY"), 
-#     openai_api_base="https://openrouter.ai/api/v1" 
+#     api_key=os.getenv("OPENAI_API_KEY")
 # )
 
-#GBT LLM:
-llm = ChatOpenAI(
-    model="gpt-4o-mini", # Use "gpt-4o" if your agent needs maximum reasoning power
-    temperature=0,
-    api_key=os.getenv("OPENAI_API_KEY")
-)
+
 conn = sqlite3.connect("memory.db", check_same_thread=False)
 memory = SqliteSaver(conn)
 
