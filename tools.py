@@ -255,7 +255,8 @@ def escalate_to_human(reason: str, language: str) -> str:
 
     message = (
         f"⚠️ *Escalation Request*\n\n"
-        f"💬 Reason: {reason}\n\n"
+        f"💬 Reason: {reason}\n\n" 
+        f"phone number : {phone_id}"
         f"_Customer requested human support — please follow up._"
     )
 

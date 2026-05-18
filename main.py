@@ -8,11 +8,14 @@ from langchain_core.messages import HumanMessage
 from agent import agent
 from ingest import ingest
 from fastapi import BackgroundTasks
+from langchain_core.messages import ToolMessage
+
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 _processed = set()
+_escalated = set()
 
 ingest()
 
@@ -78,17 +81,19 @@ async def receive(request: Request):
         # Scan ALL messages for the trigger — the LLM rewrites the final message
         # in its own words, so the trigger only exists in the tool result message.
         # The tool includes the language: [ESCALATE_TRIGGERED:darija]
+        # NEW
         try:
-            all_content = " ".join(
-                m.content for m in result["messages"]
-                if hasattr(m, "content") and isinstance(m.content, str)
+            last_tool = next(
+                (m for m in reversed(result["messages"]) if isinstance(m, ToolMessage)),
+                None
             )
-            if "[ESCALATE_TRIGGERED" in all_content:
+            if last_tool and "[ESCALATE_TRIGGERED" in last_tool.content and phone not in _escalated:
+                _escalated.add(phone)
                 lang = "english"
                 try:
-                    lang = all_content.split("[ESCALATE_TRIGGERED:")[1].split("]")[0].lower()
-                except Exception:
-                    pass
+                    lang = last_tool.content.split("[ESCALATE_TRIGGERED:")[1].split("]")[0].lower()
+                except Exception as e:
+                    logger.warning(f"Could not parse escalation language for {phone}: {e}. Defaulting to english.")
                 reply = ESCALATION_MSGS.get(lang, ESCALATION_MSGS["english"])
                 logger.info(f"Escalation triggered for {phone} in lang={lang}")
         except Exception as esc_err:
