@@ -92,12 +92,6 @@ async def receive(request: Request):
     except TimeoutError as e:
         logger.error(f"Agent timed out for {phone}: {e}", exc_info=True)
         reply = (
-<<<<<<< HEAD
-    " ، كاين مشكل تقني دابا .صبر شوية وجرب عاود، ولا تواصل معانا: +212-6XX-XXXXXX\n"
-    "Désolé, problème technique. réessayez plus tard ou  Contactez-nous : +212-6XX-XXXXXX\n"
-    "Sorry, I'm having trouble. Please contact support at +212-6XX-XXXXXX. or try again later ."
-)
-=======
             "طلبك خد وقت بزاف — جرب عاود من جديد 🙏\n"
             "Ça a pris trop de temps — veuillez réessayer 🙏\n"
             "That took too long. Please try again."
@@ -133,7 +127,6 @@ async def receive(request: Request):
                 "Sorry, I'm having trouble. Please try again or contact support at +212-6XX-XXXXXX."
             )
 
->>>>>>> def95ba6d5a7ba3a99661fd61e255c361a3c5c31
 
     _send(phone, reply)
     return {"status": "ok"}
