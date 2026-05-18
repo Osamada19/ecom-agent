@@ -54,8 +54,13 @@ async def receive(request: Request):
         entry = data["entry"][0]["changes"][0]["value"]
         if "messages" not in entry: return {"status": "ignored"}
         msg = entry["messages"][0]
-        if msg.get("type") != "text": return {"status": "ignored"}
-        phone, text = msg["from"], msg["text"]["body"]
+        phone = msg["from"]
+        if msg.get("type") != "text":
+            if msg.get("type") == "image" :
+                _send(phone,"I can't view images — could you describe what you're looking for and I'll help you right away!")
+            return {"status": "ignored"}
+        
+        text = msg["text"]["body"]
     except Exception:
         return {"status": "ignored"}
 
@@ -70,15 +75,19 @@ async def receive(request: Request):
         reply = result["messages"][-1].content
         
         # ESCALATION INTERCEPT
-        if "[ESCALATE_TRIGGERED]" in reply:
-            # Detect language from the user's message for the correct escalation text
-            lang = _detect_language_quick(text)
+        if "[ESCALATE_TRIGGERED" in reply:
+            lang = "english"
+            if ":" in reply:
+                lang = reply.split(":")[1].strip("]").lower()
             reply = ESCALATION_MSGS.get(lang, ESCALATION_MSGS["english"])
             logger.info(f"Escalation triggered for {phone} in {lang}")
             
     except Exception as e:
         logger.error(f"Agent error: {e}")
-        reply = "Sorry, I'm having trouble. Please contact support at +212-6XX-XXXXXX. or try again later . "
+        reply = (
+    "معلاش، كاين مشكل تقني دابا .صبر شوية وجرب عاود، ولا تواصل معانا: +212-6XX-XXXXXX\n"
+    "Désolé, problème technique. réessayez plus tard ou  Contactez-nous : +212-6XX-XXXXXX"
+)
 
     _send(phone, reply)
     return {"status": "ok"}
