@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 
 _processed = set()
 
-
 ingest()
 
 app = FastAPI()
@@ -30,19 +29,17 @@ ESCALATION_MSGS = {
     "darija": "غادي نحول ليك مع واحد من الفريق دابا. تواصل معانا على واتساب: +212-6XX-XXXXXX (من الاثنين للسبت، 9 الصباح حتى 6 المغرب). غادي يردو عليك خلال ساعتين.",
 }
 
+
 @app.get("/webhook")
 async def verify(request: Request):
     params = dict(request.query_params)
     return PlainTextResponse(params.get("hub.challenge")) if params.get("hub.verify_token") == VERIFY_TOKEN else PlainTextResponse("Invalid", status_code=403)
 
+
 @app.post("/webhook")
 async def receive(request: Request):
     data = await request.json()
 
-    
-    
-    
-    
     msg_id = _get_msg_id(data)
     if msg_id and msg_id in _processed:
         return {"status": "duplicate"}
@@ -56,18 +53,18 @@ async def receive(request: Request):
         msg = entry["messages"][0]
         phone = msg["from"]
         if msg.get("type") != "text":
-            if msg.get("type") == "image" :
-                _send(phone,"ما كنقدرش نشوف الصور — صيفط لينا سؤالك كتابةً وغادي نعاونك دابا 🙏\n"
-                       "Je ne peux pas voir les images — décrivez ce que vous cherchez et je vous aide tout de suite 🙏\n"
-                       "I can't view images — could you describe what you're looking for and I'll help you right away!\n")
+            if msg.get("type") == "image":
+                _send(phone, "ما كنقدرش نشوف الصور — صيفط لينا سؤالك كتابةً وغادي نعاونك دابا 🙏\n"
+                             "Je ne peux pas voir les images — décrivez ce que vous cherchez et je vous aide tout de suite 🙏\n"
+                             "I can't view images — could you describe what you're looking for and I'll help you right away!\n")
             return {"status": "ignored"}
-        
+
         text = msg["text"]["body"]
     except Exception:
         return {"status": "ignored"}
 
     if phone == os.getenv("OWNER_PHONE"):
-          return {"status": "ignored"}  # owner messages ignored by agent 
+        return {"status": "ignored"}
 
     reply = None
     try:
@@ -77,17 +74,25 @@ async def receive(request: Request):
         )
         reply = result["messages"][-1].content
 
-        # ESCALATION INTERCEPT — wrapped so a bad parse never kills the reply
+        # ESCALATION INTERCEPT
+        # Scan ALL messages for the trigger — the LLM rewrites the final message
+        # in its own words, so the trigger only exists in the tool result message.
+        # The tool includes the language: [ESCALATE_TRIGGERED:darija]
         try:
-            if "[ESCALATE_TRIGGERED" in reply:
+            all_content = " ".join(
+                m.content for m in result["messages"]
+                if hasattr(m, "content") and isinstance(m.content, str)
+            )
+            if "[ESCALATE_TRIGGERED" in all_content:
                 lang = "english"
-                if ":" in reply:
-                    lang = reply.split(":")[1].strip("]").lower()
+                try:
+                    lang = all_content.split("[ESCALATE_TRIGGERED:")[1].split("]")[0].lower()
+                except Exception:
+                    pass
                 reply = ESCALATION_MSGS.get(lang, ESCALATION_MSGS["english"])
-                logger.info(f"Escalation triggered for {phone} in {lang}")
+                logger.info(f"Escalation triggered for {phone} in lang={lang}")
         except Exception as esc_err:
             logger.error(f"Escalation intercept failed for {phone}: {esc_err}", exc_info=True)
-            # Parse failed — keep the raw agent reply rather than crashing
 
     except TimeoutError as e:
         logger.error(f"Agent timed out for {phone}: {e}", exc_info=True)
@@ -101,7 +106,6 @@ async def receive(request: Request):
         logger.error(f"Agent error for {phone}: {e}", exc_info=True)
 
         if any(kw in err_str for kw in ("tool_use_failed", "failed to call", "tool call", "toolexception")):
-            # A single tool failed — nudge the user to rephrase; agent stays alive
             reply = (
                 "معلاش، كاين مشكل صغير مع واحد من الأدوات. واش تقدر تعاود تسأل بطريقة أخرى؟ 🙏\n"
                 "Un petit problème technique — pouvez-vous reformuler votre question? 🙏\n"
@@ -120,39 +124,23 @@ async def receive(request: Request):
                 "We're a bit busy right now. Please try again in a moment."
             )
         else:
-            # Truly unrecoverable — no usable LLM response
             reply = (
                 "معلاش، كاين مشكل تقني دابا. صبر شوية وجرب عاود، ولا تواصل معانا: +212-6XX-XXXXXX\n"
                 "Désolé, problème technique. Réessayez plus tard ou contactez-nous: +212-6XX-XXXXXX\n"
                 "Sorry, I'm having trouble. Please try again or contact support at +212-6XX-XXXXXX."
             )
 
-
     _send(phone, reply)
     return {"status": "ok"}
+
 
 def _get_msg_id(data):
     try:
         msg = data["entry"][0]["changes"][0]["value"]["messages"][0]
         return hashlib.sha256(f"{msg['id']}:{msg['timestamp']}".encode()).hexdigest()[:16]
-    except: 
+    except:
         return None
 
-def _detect_language_quick(text: str) -> str:
-    """Fast heuristic for escalation message language."""
-    t = text.lower()
-    # Darija check
-    darija_words = ["salam", "bghit", "chof", "3afak", "kifach", "fin", "wech", "mashi", "zwin", "daba", "l3afass", "wakha", "shukran", "labas"]
-    if any(w in t for w in darija_words) or any(c in t for c in "37952"):
-        return "darija"
-    # Arabic script check
-    if any('\u0600' <= c <= '\u06FF' for c in text):
-        return "arabic"
-    # French check
-    french_words = ["bonjour", "merci", "commande", "livraison", "bon", "svp", "s'il", "comment", "prix"]
-    if any(w in t for w in french_words):
-        return "french"
-    return "english"
 
 def _send(to, text):
     try:

@@ -1,4 +1,3 @@
-
 from langchain_core.tools import tool
 from vector_store import retriever
 import os
@@ -20,10 +19,12 @@ def search_knowledge_base(query: str) -> str:
         logger.error(f"search_knowledge_base failed for query '{query}': {e}", exc_info=True)
         return "I'm having a quick technical hiccup accessing the database. Please try your question again in about 1 minute!"
 
+
 @tool
 def lookup_order(order_id: str) -> str:
     """Look up order status by order ID (4-digit number)."""
-    FAKE_ORDERS = {  "1001": {
+    FAKE_ORDERS = {
+        "1001": {
             "customer": "Fatima Zahra B.",
             "status": "Confirmed",
             "items": "Kaftan Nour Classique (M, blush pink) x1",
@@ -47,8 +48,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "Ships within 24 hrs",
             "notes": "",
         },
-
-        # ── Packed / Ready to Ship ──────────────────────────────────────────
         "1003": {
             "customer": "Nadia H.",
             "status": "Packed — Awaiting Pickup by Carrier",
@@ -61,8 +60,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "Estimated dispatch: today",
             "notes": "",
         },
-
-        # ── Shipped / In Transit ────────────────────────────────────────────
         "1004": {
             "customer": "Omar K.",
             "status": "Shipped — In Transit",
@@ -99,8 +96,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "3–4 business days",
             "notes": "Remote city — slight delay possible.",
         },
-
-        # ── Out for Delivery ────────────────────────────────────────────────
         "1007": {
             "customer": "Zineb M.",
             "status": "Out for Delivery — Arriving Today",
@@ -113,8 +108,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "Today — delivery agent will call before arriving",
             "notes": "Please have 255 MAD ready.",
         },
-
-        # ── Delivered ───────────────────────────────────────────────────────
         "1008": {
             "customer": "Rachid L.",
             "status": "Delivered",
@@ -139,8 +132,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "Delivered on Apr 17",
             "notes": "",
         },
-
-        # ── Failed Delivery ─────────────────────────────────────────────────
         "1010": {
             "customer": "Karim O.",
             "status": "Failed Delivery — Customer Unreachable",
@@ -153,8 +144,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "Redelivery can be requested — 35 MAD reshipping fee applies",
             "notes": "Carrier attempted delivery twice. Please contact support to reschedule.",
         },
-
-        # ── Cancelled ───────────────────────────────────────────────────────
         "1011": {
             "customer": "Imane S.",
             "status": "Cancelled",
@@ -167,8 +156,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "N/A",
             "notes": "Cancelled by customer within the 1-hour window. No charge.",
         },
-
-        # ── Return Requested ────────────────────────────────────────────────
         "1012": {
             "customer": "Meryem F.",
             "status": "Return Requested — Awaiting Pickup",
@@ -181,8 +168,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "Return pickup scheduled — we will contact you to confirm the date",
             "notes": "Reason: wrong size ordered (customer wanted M).",
         },
-
-        # ── Return in Transit ───────────────────────────────────────────────
         "1013": {
             "customer": "Yassine N.",
             "status": "Return In Transit — Received by Carrier",
@@ -195,8 +180,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "Refund will be processed within 5–7 business days of inspection",
             "notes": "Reason: item color different from website photo.",
         },
-
-        # ── Refunded ────────────────────────────────────────────────────────
         "1014": {
             "customer": "Loubna A.",
             "status": "Refunded",
@@ -209,8 +192,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "Refund of 220 MAD issued on Apr 10",
             "notes": "Refund sent to original CMI card. May take 3–5 bank days to appear.",
         },
-
-        # ── Wrong Item Received ─────────────────────────────────────────────
         "1015": {
             "customer": "Tariq B.",
             "status": "Delivered — Issue Reported",
@@ -223,8 +204,6 @@ def lookup_order(order_id: str) -> str:
             "eta": "Replacement dispatched — arriving in 2–3 business days",
             "notes": "Wrong color sent by warehouse. Replacement confirmed at no cost.",
         },
-
-        # ── Large/High-Value Order ──────────────────────────────────────────
         "1016": {
             "customer": "Najat R.",
             "status": "Shipped — In Transit",
@@ -240,9 +219,8 @@ def lookup_order(order_id: str) -> str:
             "order_date": "2025-04-20",
             "carrier": "DHL",
             "eta": "1–2 business days (priority shipping)",
-            "notes": "COD not available for this order value — paid by card.", 
+            "notes": "COD not available for this order value — paid by card.",
         }
-    
     }
     try:
         order = FAKE_ORDERS.get(str(order_id).strip())
@@ -260,32 +238,62 @@ def lookup_order(order_id: str) -> str:
         logger.error(f"lookup_order failed for order_id '{order_id}': {e}", exc_info=True)
         return f"I couldn't retrieve order {order_id} right now. Please try again in a moment."
 
-@tool
-def escalate_to_human(reason: str) -> str:
-    """Escalate to human agent. Use ONLY when user explicitly asks for human or is extremely angry."""
-    try:
-        logger.info(f"Escalation requested. Reason: {reason}")
-        return "[ESCALATE_TRIGGERED]"
-    except Exception as e:
-        logger.error(f"escalate_to_human failed: {e}", exc_info=True)
-        return "[ESCALATE_TRIGGERED]"
 
+@tool
+def escalate_to_human(reason: str, language: str) -> str:
+    """
+    Escalate to human agent and notify the store owner via WhatsApp.
+    Use ONLY when user explicitly asks for a human agent, or is extremely angry.
+
+    Args:
+        reason: brief description of why escalation is needed (e.g. 'customer requested human', 'very angry about wrong item')
+        language: the language the customer is using. Must be exactly one of: english, french, arabic, darija
+    """
+    owner_number = os.getenv("OWNER_PHONE")
+    token = os.getenv("WHATSAPP_TOKEN")
+    phone_id = os.getenv("PHONE_NUMBER_ID")
+
+    message = (
+        f"⚠️ *Escalation Request*\n\n"
+        f"💬 Reason: {reason}\n\n"
+        f"_Customer requested human support — please follow up._"
+    )
+
+    try:
+        resp = requests.post(
+            f"https://graph.facebook.com/v19.0/{phone_id}/messages",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json={
+                "messaging_product": "whatsapp",
+                "to": owner_number,
+                "type": "text",
+                "text": {"body": message}
+            },
+            timeout=10
+        )
+        resp.raise_for_status()
+        logger.info(f"Escalation owner notification sent. Reason: {reason}, Language: {language}")
+    except Exception as e:
+        logger.error(f"escalate_to_human owner notify failed: {e}", exc_info=True)
+
+    # Always return the trigger — even if the WhatsApp call failed,
+    # the customer still gets the escalation message.
+    return f"[ESCALATE_TRIGGERED:{language}]"
 
 
 @tool
 def notify_owner(order_summary: str) -> str:
     """
     Send a draft order to the store owner for confirmation.
-    
-    STRICT CONDITIONS — call this tool ONLY when ALL of these are true:
-    1. The user has explicitly stated they want to place an order 
-       (e.g. 'I want to order', 'I want to buy', 'confirm my order').
-    2. You have collected: product name, color, size, quantity, 
-       customer name, delivery address, payment method , and customer_phone .
 
+    STRICT CONDITIONS — call this tool ONLY when ALL of these are true:
+    1. The user has explicitly stated they want to place an order
+       (e.g. 'I want to order', 'I want to buy', 'confirm my order').
+    2. You have collected: product name, color, size, quantity,
+       customer name, delivery address, payment method, and customer_phone.
 
     Format order_summary EXACTLY like this:
-    
+
      الاسم: [name]
     الهاتف: [customer phone]
     المنتج: [product name]
@@ -295,19 +303,14 @@ def notify_owner(order_summary: str) -> str:
     العنوان: [full address + city]
     الدفع: [COD or card]
 
-    
-   
-    
-    Do NOT call this just because you know product details from 
+    Do NOT call this just because you know product details from
     a product question. Intent to buy must be explicit.
 
-   
     BEFORE calling this tool, verify you have ALL of these in the CURRENT conversation:
-    - customer_name, product, color, size, quantity, address, city, payment_method, customer_phone .
+    - customer_name, product, color, size, quantity, address, city, payment_method, customer_phone.
     If ANY is missing, ask for it first. Never call with incomplete data.
-
     """
-    owner_number = os.getenv("OWNER_PHONE")  # e.g. 212661XXXXXX
+    owner_number = os.getenv("OWNER_PHONE")
     token = os.getenv("WHATSAPP_TOKEN")
     phone_id = os.getenv("PHONE_NUMBER_ID")
 
@@ -337,6 +340,12 @@ def notify_owner(order_summary: str) -> str:
         logger.error(f"notify_owner failed: {e}", exc_info=True)
         return "I couldn't send the order notification right now. Please try again in a moment."
 
+
+ALL_TOOLS = [search_knowledge_base, lookup_order, escalate_to_human, notify_owner]
+
+
+
+
 ### english order summary format 
 
 # Customer: [name]
@@ -347,6 +356,3 @@ def notify_owner(order_summary: str) -> str:
     # Quantity: [quantity]
     # Address: [full address + city]
     # Payment: [COD or card]
-
-
-ALL_TOOLS = [search_knowledge_base, lookup_order, escalate_to_human,notify_owner]
