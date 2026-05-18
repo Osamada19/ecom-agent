@@ -240,13 +240,14 @@ def lookup_order(order_id: str) -> str:
 
 
 @tool
-def escalate_to_human(reason: str, language: str) -> str:
+def escalate_to_human(reason: str, language: str ,user_phone:int) -> str:
     """
     Escalate to human agent and notify the store owner via WhatsApp.
     Use ONLY when user explicitly asks for a human agent, or is extremely angry.
 
     Args:
-        reason: brief description of why escalation is needed (e.g. 'customer requested human', 'very angry about wrong item')
+        reason: brief description of why escalation is needed (e.g. 'customer requested human', 'very angry about wrong item'). 
+        user_phone: you already have access to the customer phone number as thread id 
         language: the language the customer is using. Must be exactly one of: english, french, arabic, darija
     """
     owner_number = os.getenv("OWNER_PHONE")
@@ -256,7 +257,7 @@ def escalate_to_human(reason: str, language: str) -> str:
     message = (
         f"⚠️ *Escalation Request*\n\n"
         f"💬 Reason: {reason}\n\n" 
-        f"phone number : {phone_id}"
+        f"phone number :{user_phone}\n\n "
         f"_Customer requested human support — please follow up._"
     )
 
