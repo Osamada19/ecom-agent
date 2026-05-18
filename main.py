@@ -57,7 +57,9 @@ async def receive(request: Request):
         phone = msg["from"]
         if msg.get("type") != "text":
             if msg.get("type") == "image" :
-                _send(phone,"I can't view images — could you describe what you're looking for and I'll help you right away!")
+                _send(phone,"ما كنقدرش نشوف الصور — صيفط لينا سؤالك كتابةً وغادي نعاونك دابا 🙏\n"
+                       "Je ne peux pas voir les images — décrivez ce que vous cherchez et je vous aide tout de suite 🙏\n"
+                       "I can't view images — could you describe what you're looking for and I'll help you right away!\n")
             return {"status": "ignored"}
         
         text = msg["text"]["body"]
@@ -86,7 +88,8 @@ async def receive(request: Request):
         logger.error(f"Agent error: {e}")
         reply = (
     "معلاش، كاين مشكل تقني دابا .صبر شوية وجرب عاود، ولا تواصل معانا: +212-6XX-XXXXXX\n"
-    "Désolé, problème technique. réessayez plus tard ou  Contactez-nous : +212-6XX-XXXXXX"
+    "Désolé, problème technique. réessayez plus tard ou  Contactez-nous : +212-6XX-XXXXXX\n"
+    "Sorry, I'm having trouble. Please contact support at +212-6XX-XXXXXX. or try again later ."
 )
 
     _send(phone, reply)
