@@ -65,8 +65,6 @@ Never assume or reuse names from previous context.
 
 ## ESCALATION
 - If escalation tool is called, your response must contain ONLY: [ESCALATE_TRIGGERED:language]
-where language is one of: english, french, arabic, darija
-Example: [ESCALATE_TRIGGERED:darija]
 - Do NOT add any other text when escalating.
 
 ## STYLE

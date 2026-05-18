@@ -87,7 +87,7 @@ async def receive(request: Request):
     except Exception as e:
         logger.error(f"Agent error: {e}")
         reply = (
-    "معلاش، كاين مشكل تقني دابا .صبر شوية وجرب عاود، ولا تواصل معانا: +212-6XX-XXXXXX\n"
+    " ، كاين مشكل تقني دابا .صبر شوية وجرب عاود، ولا تواصل معانا: +212-6XX-XXXXXX\n"
     "Désolé, problème technique. réessayez plus tard ou  Contactez-nous : +212-6XX-XXXXXX\n"
     "Sorry, I'm having trouble. Please contact support at +212-6XX-XXXXXX. or try again later ."
 )
