@@ -2,19 +2,22 @@
 from langchain_core.tools import tool
 from vector_store import retriever
 import os
+import logging
 import requests
+
+logger = logging.getLogger(__name__)
 
 
 @tool
 def search_knowledge_base(query: str) -> str:
     """Search store policies, products, shipping, returns, payments, sizing."""
-    
     try:
         docs = retriever.invoke(query)
         if not docs:
             return "No relevant information found."
         return "\n\n---\n\n".join([d.page_content for d in docs])
-    except:
+    except Exception as e:
+        logger.error(f"search_knowledge_base failed for query '{query}': {e}", exc_info=True)
         return "I'm having a quick technical hiccup accessing the database. Please try your question again in about 1 minute!"
 
 @tool
@@ -241,15 +244,31 @@ def lookup_order(order_id: str) -> str:
         }
     
     }
-    order = FAKE_ORDERS.get(str(order_id).strip())
-    if not order:
-        return f"No order found with ID '{order_id}'. Please check and try again."
-    return f"📦 Order #{order_id}\nStatus: {order['status']}\nItems: {order['items']}\nTotal: {order['total']}\nCity: {order['city']}\nETA: {order['eta']}"
+    try:
+        order = FAKE_ORDERS.get(str(order_id).strip())
+        if not order:
+            return f"No order found with ID '{order_id}'. Please double-check the ID and try again."
+        return (
+            f"📦 Order #{order_id}\n"
+            f"Status: {order['status']}\n"
+            f"Items: {order['items']}\n"
+            f"Total: {order['total']}\n"
+            f"City: {order['city']}\n"
+            f"ETA: {order['eta']}"
+        )
+    except Exception as e:
+        logger.error(f"lookup_order failed for order_id '{order_id}': {e}", exc_info=True)
+        return f"I couldn't retrieve order {order_id} right now. Please try again in a moment."
 
 @tool
 def escalate_to_human(reason: str) -> str:
     """Escalate to human agent. Use ONLY when user explicitly asks for human or is extremely angry."""
-    return "[ESCALATE_TRIGGERED]"
+    try:
+        logger.info(f"Escalation requested. Reason: {reason}")
+        return "[ESCALATE_TRIGGERED]"
+    except Exception as e:
+        logger.error(f"escalate_to_human failed: {e}", exc_info=True)
+        return "[ESCALATE_TRIGGERED]"
 
 
 
@@ -308,8 +327,15 @@ def notify_owner(order_summary: str) -> str:
         )
         resp.raise_for_status()
         return "Order sent to store owner. Tell the customer: the owner will confirm their order shortly via WhatsApp."
+    except requests.exceptions.Timeout:
+        logger.error("notify_owner timed out sending WhatsApp message to owner")
+        return "The order notification timed out. Please ask the customer to try confirming again in a moment."
+    except requests.exceptions.HTTPError as e:
+        logger.error(f"notify_owner HTTP error: {e}", exc_info=True)
+        return "There was a problem sending the order to the owner. Please try again or contact support."
     except Exception as e:
-        return f"Failed to notify owner: {e}"
+        logger.error(f"notify_owner failed: {e}", exc_info=True)
+        return "I couldn't send the order notification right now. Please try again in a moment."
 
 ### english order summary format 
 
