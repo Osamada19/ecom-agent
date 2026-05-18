@@ -69,28 +69,71 @@ async def receive(request: Request):
     if phone == os.getenv("OWNER_PHONE"):
           return {"status": "ignored"}  # owner messages ignored by agent 
 
+    reply = None
     try:
         result = agent.invoke(
-    {"messages": [HumanMessage(content=f"[Customer WhatsApp: {phone}]\n{text}")]},
-    config={"configurable": {"thread_id": phone}}
+            {"messages": [HumanMessage(content=f"[Customer WhatsApp: {phone}]\n{text}")]},
+            config={"configurable": {"thread_id": phone}}
         )
         reply = result["messages"][-1].content
-        
-        # ESCALATION INTERCEPT
-        if "[ESCALATE_TRIGGERED" in reply:
-            lang = "english"
-            if ":" in reply:
-                lang = reply.split(":")[1].strip("]").lower()
-            reply = ESCALATION_MSGS.get(lang, ESCALATION_MSGS["english"])
-            logger.info(f"Escalation triggered for {phone} in {lang}")
-            
-    except Exception as e:
-        logger.error(f"Agent error: {e}")
+
+        # ESCALATION INTERCEPT — wrapped so a bad parse never kills the reply
+        try:
+            if "[ESCALATE_TRIGGERED" in reply:
+                lang = "english"
+                if ":" in reply:
+                    lang = reply.split(":")[1].strip("]").lower()
+                reply = ESCALATION_MSGS.get(lang, ESCALATION_MSGS["english"])
+                logger.info(f"Escalation triggered for {phone} in {lang}")
+        except Exception as esc_err:
+            logger.error(f"Escalation intercept failed for {phone}: {esc_err}", exc_info=True)
+            # Parse failed — keep the raw agent reply rather than crashing
+
+    except TimeoutError as e:
+        logger.error(f"Agent timed out for {phone}: {e}", exc_info=True)
         reply = (
+<<<<<<< HEAD
     " ، كاين مشكل تقني دابا .صبر شوية وجرب عاود، ولا تواصل معانا: +212-6XX-XXXXXX\n"
     "Désolé, problème technique. réessayez plus tard ou  Contactez-nous : +212-6XX-XXXXXX\n"
     "Sorry, I'm having trouble. Please contact support at +212-6XX-XXXXXX. or try again later ."
 )
+=======
+            "طلبك خد وقت بزاف — جرب عاود من جديد 🙏\n"
+            "Ça a pris trop de temps — veuillez réessayer 🙏\n"
+            "That took too long. Please try again."
+        )
+    except Exception as e:
+        err_str = str(e).lower()
+        logger.error(f"Agent error for {phone}: {e}", exc_info=True)
+
+        if any(kw in err_str for kw in ("tool_use_failed", "failed to call", "tool call", "toolexception")):
+            # A single tool failed — nudge the user to rephrase; agent stays alive
+            reply = (
+                "معلاش، كاين مشكل صغير مع واحد من الأدوات. واش تقدر تعاود تسأل بطريقة أخرى؟ 🙏\n"
+                "Un petit problème technique — pouvez-vous reformuler votre question? 🙏\n"
+                "I'm having trouble accessing that right now. Could you try asking differently?"
+            )
+        elif "timeout" in err_str or "timed out" in err_str:
+            reply = (
+                "طلبك خد وقت بزاف — جرب عاود من جديد 🙏\n"
+                "Ça a pris trop de temps — veuillez réessayer 🙏\n"
+                "That took too long. Please try again."
+            )
+        elif "rate limit" in err_str or "quota" in err_str or "429" in err_str:
+            reply = (
+                "كاين ضغط دابا — صبر شوية وجرب عاود 🙏\n"
+                "Trop de demandes en ce moment — réessayez dans un instant 🙏\n"
+                "We're a bit busy right now. Please try again in a moment."
+            )
+        else:
+            # Truly unrecoverable — no usable LLM response
+            reply = (
+                "معلاش، كاين مشكل تقني دابا. صبر شوية وجرب عاود، ولا تواصل معانا: +212-6XX-XXXXXX\n"
+                "Désolé, problème technique. Réessayez plus tard ou contactez-nous: +212-6XX-XXXXXX\n"
+                "Sorry, I'm having trouble. Please try again or contact support at +212-6XX-XXXXXX."
+            )
+
+>>>>>>> def95ba6d5a7ba3a99661fd61e255c361a3c5c31
 
     _send(phone, reply)
     return {"status": "ok"}
