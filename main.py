@@ -26,10 +26,10 @@ WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")
 PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
 
 ESCALATION_MSGS = {
-    "english": "I'm escalating your case to a human agent right away. Please reach us on WhatsApp at +212-6XX-XXXXXX (Mon–Sat, 9am–6pm). We'll respond within 2 hours.",
-    "french": "Je transmets votre demande à un agent humain immédiatement. Contactez-nous sur WhatsApp au +212-6XX-XXXXXX (Lun–Sam, 9h–18h). Nous répondrons dans les 2 heures.",
-    "arabic": "سأقوم بتحويل طلبك إلى أحد الوكلاء البشريين على الفور. يرجى التواصل معنا عبر واتساب على +212-6XX-XXXXXX (من الاثنين إلى السبت، 9 صباحًا حتى 6 مساءً). سنرد خلال ساعتين.",
-    "darija": "غادي نحول ليك مع واحد من الفريق دابا. تواصل معانا على واتساب: +212-6XX-XXXXXX (من الاثنين للسبت، 9 الصباح حتى 6 المغرب). غادي يردو عليك خلال ساعتين.",
+    "english": "I've notified our team and they'll reach out to you shortly on WhatsApp. In the meantime, feel free to ask me anything else — I'm still here! 😊",
+    "french": "J'ai informé notre équipe et ils vous contacteront bientôt sur WhatsApp. En attendant, n'hésitez pas à me poser d'autres questions — je suis toujours là ! 😊",
+    "arabic": "لقد أبلغت فريقنا وسيتواصلون معك قريباً على واتساب. في هذه الأثناء، لا تتردد في سؤالي عن أي شيء آخر — أنا هنا! 😊",
+    "darija": "أعلمت الفريق وغادي يتواصلو معاك قريبًا على واتساب. فينما كتسنا، سول على أي حاجة أخرى — أنا هنا! 😊",
 }
 
 
