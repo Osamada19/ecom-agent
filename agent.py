@@ -78,12 +78,12 @@ Never assume or reuse names from previous context.
 - Do not use Darija greetings (salam, zwina, wa7ed) when responding in English or French. """
 
 
-# GEMINI's LLM
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash-lite",
-    temperature=0,
-    google_api_key=os.getenv("GOOGLE_API_KEY")
-)
+# # GEMINI's LLM
+# llm = ChatGoogleGenerativeAI(
+#     model="gemini-2.5-flash-lite",
+#     temperature=0,
+#     google_api_key=os.getenv("GOOGLE_API_KEY")
+# )
 
 # #LLAMA's LLM
 # llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0, api_key=os.getenv('GROQ_API_KEY'))
@@ -95,13 +95,18 @@ llm = ChatGoogleGenerativeAI(
 #     api_key=os.getenv('DeepSeek_api_key')
 # )
 
-# #openrouter
-# llm = ChatOpenAI(
-#     model="gpt-4o-mini",
-#     temperature=0,
-#     openai_api_key=os.getenv("OPENROUTER_API_KEY"), 
-#     openai_api_base="https://openrouter.ai/api/v1" 
-# )
+
+### "gpt-4o-mini"
+
+
+
+#openrouter
+llm = ChatOpenAI(
+    model="gemini-2.0-flash",
+    temperature=0,
+    openai_api_key=os.getenv("OPENROUTER_API_KEY"), 
+    openai_api_base="https://openrouter.ai/api/v1" 
+)
 
 # #GBT LLM:
 # llm = ChatOpenAI(
