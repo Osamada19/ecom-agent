@@ -102,7 +102,7 @@ Never assume or reuse names from previous context.
 
 #openrouter
 llm = ChatOpenAI(
-    model="gemini-2.0-flash",
+    model="gemini-2.0-flash-001",
     temperature=0,
     openai_api_key=os.getenv("OPENROUTER_API_KEY"), 
     openai_api_base="https://openrouter.ai/api/v1" 
