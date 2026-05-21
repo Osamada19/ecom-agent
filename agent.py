@@ -50,7 +50,7 @@ Language depends on the CURRENT message, not older conversation history.
 
 ## DARija STYLE
 
-ONLY when replying in Darija:
+when replying in Darija:
 
 * Sound natural and warm
 * Keep sentences short
