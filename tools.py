@@ -240,14 +240,17 @@ def lookup_order(order_id: str) -> str:
 
 
 @tool
-def escalate_to_human(reason: str, language: str ,user_phone:int) -> str:
+def escalate_to_human(reason: str, language: str ,user_phone:str) -> str:
     """
     Escalate to human agent and notify the store owner via WhatsApp.
     Use ONLY when user explicitly asks for a human agent, or is extremely angry.
 
     Args:
         reason: brief description of why escalation is needed (e.g. 'customer requested human', 'very angry about wrong item'). 
-        user_phone: you already have access to the customer phone number as thread id 
+        user_phone:
+            The customer's WhatsApp number already exists in the conversation context as:
+                [Customer WhatsApp: xxx]
+            Use that number automatically. Don't ask the customer for it. 
         language: the language the customer is using. Must be exactly one of: english, french, arabic, darija
     """
     owner_number = os.getenv("OWNER_PHONE")
@@ -291,8 +294,14 @@ def notify_owner(order_summary: str) -> str:
     STRICT CONDITIONS — call this tool ONLY when ALL of these are true:
     1. The user has explicitly stated they want to place an order
        (e.g. 'I want to order', 'I want to buy', 'confirm my order').
-    2. You have collected: product name, color, size, quantity,
-       customer name, delivery address, payment method, and customer_phone.
+    2. You have collected:
+        product name, color, size, quantity,
+        customer name, delivery address,
+        and payment method.
+
+        Customer phone number is already available
+        from the conversation context.
+        Don't ask the customer for it.
 
     Format order_summary EXACTLY like this:
 
@@ -311,6 +320,11 @@ def notify_owner(order_summary: str) -> str:
     BEFORE calling this tool, verify you have ALL of these in the CURRENT conversation:
     - customer_name, product, color, size, quantity, address, city, payment_method, customer_phone.
     If ANY is missing, ask for it first. Never call with incomplete data.
+
+    Never call this tool in the same response where you ask for confirmation.
+    First ask for confirmation.
+    Wait for the user's next message.
+    Then call the tool.
     """
     owner_number = os.getenv("OWNER_PHONE")
     token = os.getenv("WHATSAPP_TOKEN")
