@@ -289,42 +289,26 @@ def escalate_to_human(reason: str, language: str ,user_phone:str) -> str:
 @tool
 def notify_owner(order_summary: str) -> str:
     """
-    Send a draft order to the store owner for confirmation.
+     Send a confirmed order to the store owner via WhatsApp.
 
-    STRICT CONDITIONS — call this tool ONLY when ALL of these are true:
-    1. The user has explicitly stated they want to place an order
-       (e.g. 'I want to order', 'I want to buy', 'confirm my order').
-    2. You have collected:
-        product name, color, size, quantity,
-        customer name, delivery address,
-        and payment method.
+    Call this tool ONLY after ALL three conditions are met:
+    1. All order details are collected: name, product, color, size, quantity, address, city, payment method.
+    2. The full order summary was shown to the customer.
+    3. The customer explicitly confirmed with yes / iyeh / oui / nam.
 
-        Customer phone number is already available
-        from the conversation context.
-        Don't ask the customer for it.
+    Customer phone is already in the conversation context — extract it automatically.
+    NEVER ask the customer for their phone number.
 
     Format order_summary EXACTLY like this:
-
-     الاسم: [name]
-    الهاتف: [customer phone]
+    الاسم: [name]
+    الهاتف: [customer phone from context]
     المنتج: [product name]
     اللون: [color]
     المقاس: [size]
     الكمية: [quantity]
     العنوان: [full address + city]
     الدفع: [COD or card]
-
-    Do NOT call this just because you know product details from
-    a product question. Intent to buy must be explicit.
-
-    BEFORE calling this tool, verify you have ALL of these in the CURRENT conversation:
-    - customer_name, product, color, size, quantity, address, city, payment_method, customer_phone.
-    If ANY is missing, ask for it first. Never call with incomplete data.
-
-    Never call this tool in the same response where you ask for confirmation.
-    First ask for confirmation.
-    Wait for the user's next message.
-    Then call the tool.
+    
     """
     owner_number = os.getenv("OWNER_PHONE")
     token = os.getenv("WHATSAPP_TOKEN")
