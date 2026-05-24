@@ -293,7 +293,7 @@ def notify_owner(order_summary: str) -> str:
 
     Call this tool ONLY after ALL three conditions are met:
     1. All order details are collected: name, product, color, size, quantity, address, city, payment method.
-    2. The full order summary was shown to the customer.
+    2. The full order summary was shown to the customer .
     3. The customer explicitly confirmed with yes / iyeh / oui / nam.
 
     Customer phone is already in the conversation context — extract it automatically.
