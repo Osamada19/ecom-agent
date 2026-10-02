@@ -1,0 +1,214 @@
+=== ABOUT THE STORE ===
+
+Welcome to ElectroMA — a Moroccan store specializing in electric scooters (trottinettes) and electric bikes.
+We serve commuters, students, and delivery riders looking for reliable, affordable electric mobility.
+Website: www.electroma.ma
+We ship across all of Morocco, 6 days a week.
+Follow us on Instagram: @electroma.ma
+
+Store Name: ElectroMA
+- Address: Avenue Hassan II, Quartier Gauthier, Casablanca.
+- Maps Link: https://maps.app.goo.gl/example
+- Opening Hours:
+    - Monday–Saturday: 09:30 – 19:00
+    - Friday: closed between 12:30 and 14:30 (prayer)
+    - Sunday: closed
+
+=== ELECTRIC SCOOTERS (TROTTINETTES) ===
+
+Trottinette Urban X7
+- Description: Entry-level daily commuter scooter. Lightweight, foldable in 3 seconds.
+- Motor: 350W
+- Max speed: 25 km/h
+- Range: 25 km per charge
+- Charging time: 5–6 hours
+- Max load: 100 kg
+- Weight: 12.5 kg
+- Price: 3,200 MAD
+- Warranty: 6 months (motor + battery)
+- Colors: Black, White
+
+Trottinette Rider Pro 500
+- Description: Mid-range scooter with better range and suspension — good for daily commutes on uneven roads.
+- Motor: 500W
+- Max speed: 32 km/h
+- Range: 40 km per charge
+- Charging time: 6–7 hours
+- Max load: 120 kg
+- Weight: 15 kg
+- Price: 4,800 MAD
+- Warranty: 12 months (motor + battery)
+- Colors: Black, Grey, Red
+
+Trottinette MaxSpeed 8 Off-Road
+- Description: All-terrain scooter with dual shock absorbers and wider off-road tires. Popular with delivery riders.
+- Motor: 800W (dual motor optional +600 MAD)
+- Max speed: 45 km/h
+- Range: 50 km per charge
+- Charging time: 8 hours
+- Max load: 130 kg
+- Weight: 19 kg
+- Price: 7,500 MAD
+- Warranty: 12 months (motor + battery)
+- Colors: Black, Camo Green
+
+Trottinette Kids Mini E100
+- Description: Entry electric scooter for kids aged 8–14. Speed-limited for safety.
+- Motor: 150W
+- Max speed: 15 km/h (adjustable, can be capped at 10 km/h)
+- Range: 12 km per charge
+- Max load: 50 kg
+- Price: 1,600 MAD
+- Warranty: 6 months
+- Colors: Blue, Pink, Black
+
+=== ELECTRIC BIKES ===
+
+E-Bike City Comfort
+- Description: Step-through frame electric bike for everyday city riding. Comfortable upright riding position.
+- Motor: 250W rear hub
+- Battery: 36V 10Ah (removable)
+- Range: 45 km per charge (pedal-assist)
+- Max speed: 25 km/h
+- Charging time: 4–5 hours
+- Price: 8,900 MAD
+- Warranty: 12 months (motor + battery), 24 months (frame)
+- Colors: Matte Black, Sand Beige
+
+E-Bike Trail Sport
+- Description: Mountain-style electric bike with front suspension fork. Good for mixed city/off-road use.
+- Motor: 350W mid-drive
+- Battery: 36V 13Ah (removable)
+- Range: 55 km per charge (pedal-assist)
+- Max speed: 30 km/h
+- Charging time: 5–6 hours
+- Price: 11,500 MAD
+- Warranty: 12 months (motor + battery), 24 months (frame)
+- Colors: Black/Orange, Grey/Blue
+
+E-Bike Cargo Delivery Pro
+- Description: Reinforced frame and rear rack built for food/parcel delivery riders. Extra-durable tires.
+- Motor: 500W rear hub
+- Battery: 48V 15Ah (removable, dual-battery option available +1,800 MAD)
+- Range: 70 km per charge
+- Max speed: 32 km/h
+- Max load (rider + cargo): 180 kg
+- Price: 13,900 MAD
+- Warranty: 12 months (motor + battery), 24 months (frame)
+- Colors: Black, White
+
+=== ACCESSORIES ===
+
+Casque de Protection Unisexe — 250 MAD (S/M/L, Black/White/Grey)
+Chargeur de Rechange Universel — 350 MAD (compatible with all ElectroMA scooter models — confirm model when ordering)
+Antivol U-Lock Renforcé — 220 MAD
+Sacoche de Rangement Trottinette — 150 MAD
+Housse de Pluie Imperméable — 130 MAD
+Batterie de Rechange (modèle spécifique) — price varies by model, ask us via WhatsApp with your model name
+
+=== BATTERY, RANGE & CHARGING FAQ ===
+
+Q: How long does the battery last (lifespan, not per-charge)?
+A: All batteries are rated for 500–800 full charge cycles (roughly 2–3 years of normal daily use) before noticeable capacity loss.
+
+Q: Can I ride in the rain?
+A: Our scooters and e-bikes are splash-resistant (IP54) but not fully waterproof. Avoid deep puddles and heavy rain. We sell a rain cover for extra protection.
+
+Q: Range advertised vs. real range?
+A: Advertised range is measured under ideal conditions (flat road, 70kg rider, eco mode). Expect 15-25% less in real city conditions depending on rider weight, terrain, and speed mode.
+
+Q: Can the battery be swapped/upgraded?
+A: E-bikes have removable batteries — upgrades and spares available. Scooter batteries are internal on most models except the MaxSpeed 8, which supports a spare battery pack.
+
+Q: What if the battery stops holding charge?
+A: Covered under warranty if within the warranty period and not due to physical damage or water exposure. Contact us with your order number.
+
+=== SHIPPING POLICY ===
+
+We deliver across all of Morocco. Standard delivery: 2–5 business days.
+
+Fast delivery cities (2–3 days): Casablanca, Rabat, Salé, Marrakech, Fès, Meknès, Agadir, Tanger, Oujda, Kenitra, Tétouan, Nador.
+
+Remote areas (Laâyoune, Dakhla, Errachidia, Zagora): 5–7 business days.
+
+Shipping is FREE on all scooter and e-bike orders (products are pre-assembled or require only quick setup — assembly guide included).
+Accessories under 300 MAD: flat shipping fee of 30 MAD. Accessories above 300 MAD: free shipping.
+
+You will receive an SMS with a tracking link once your order is dispatched.
+Scooters and e-bikes ship in reinforced boxes — please inspect the box on delivery before signing.
+
+We ship within Morocco only. No international shipping currently.
+
+=== CASH ON DELIVERY (COD) ===
+
+COD is available for orders up to 5,000 MAD.
+Orders above 5,000 MAD (e.g. MaxSpeed 8, most e-bikes) require a 30% deposit online, remainder paid COD on delivery — or full card payment.
+
+Please have the exact amount ready — delivery agents may not carry change.
+COD orders require a reachable phone number — the agent will call before arriving.
+
+If the agent cannot reach you after 2 attempts, the order is returned and a 50 MAD reshipping fee applies (higher than standard due to scooter/e-bike package size).
+
+=== RETURNS & WARRANTY ===
+
+Returns accepted within 7 days of delivery if unused, in original packaging, with no signs of riding (battery must show zero or near-zero usage cycles).
+Once a scooter/e-bike has been ridden, it is no longer eligible for a full return — only warranty repair applies.
+
+Warranty covers manufacturing defects in motor, battery, and frame (see individual product warranty periods).
+Warranty does NOT cover: water damage, crash/impact damage, unauthorized repairs, normal battery capacity degradation over time.
+
+To claim warranty: WhatsApp us your order number, a description of the issue, and a photo/video if possible.
+Minor repairs (tires, brakes, cables) can often be handled by any local bike/scooter repair shop — ask us first, we may cover the cost if it's a warranty issue.
+
+=== PAYMENT METHODS ===
+
+We accept:
+- Cash on delivery (COD) — up to 5,000 MAD
+- Visa / Mastercard (Moroccan and international cards)
+- CMI online payment
+- Bank transfer (for large orders / dual e-bike orders)
+
+We do NOT accept PayPal or cryptocurrency.
+All prices in Moroccan Dirhams (MAD). No hidden fees.
+
+=== PROMOTIONS ===
+
+Current active promotions:
+- ELECTRO10 → 10% off any scooter (first-time customers only)
+- BUNDLE50 → 50 MAD off when you buy any scooter/bike + 2 accessories together
+- DELIVERY0 → Free express delivery (2-day) on orders above 8,000 MAD
+
+Discount codes must be applied at checkout. One code per order. Cannot be combined with other discounts.
+
+=== FREQUENTLY ASKED QUESTIONS ===
+
+Q: Do I need a license to ride an electric scooter/bike in Morocco?
+A: No license is required for personal-use electric scooters/bikes under current regulations. We recommend wearing a helmet and following local traffic rules.
+
+Q: Does it come assembled?
+A: Scooters arrive mostly assembled — just unfold and charge. E-bikes require basic assembly (handlebars, pedals, front wheel) — instructions included, takes about 15-20 minutes. We can recommend a local shop if you'd prefer professional assembly.
+
+Q: Which model is best for daily commuting under 10km?
+A: Urban X7 (scooter) or E-Bike City Comfort — both are efficient for short daily trips and easier on the budget.
+
+Q: Which model is best for delivery work?
+A: MaxSpeed 8 Off-Road (scooter) or Cargo Delivery Pro (e-bike) — built for higher daily mileage and heavier loads.
+
+Q: Can I test ride before buying?
+A: Yes, at our Casablanca showroom (Quartier Gauthier). WhatsApp us to book a time slot.
+
+Q: Do you offer installment payments?
+A: Not directly, but our CMI partner supports installment plans on eligible cards — ask your bank about "3x sans frais" (3x no-fee installments) eligibility.
+
+=== CONTACT & SUPPORT ===
+
+WhatsApp (fastest): +212-6XX-XXXXXX
+Email: support@electroma.ma
+Instagram: @electroma.ma
+Website: www.electroma.ma
+
+Support hours: Monday–Saturday, 9:30 AM – 7:00 PM (Morocco time).
+Closed Sundays and public holidays.
+Response within 2 hours during business hours.
+
+For urgent issues (defective unit, damaged in transit), write "URGENT" in your first message.

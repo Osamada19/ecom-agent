@@ -1,0 +1,18 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+langchain
+langchain-google-genai
+langgraph
+langgraph-checkpoint-sqlite
+langchain-chroma
+
+chromadb
+
+fastapi
+uvicorn
+python-dotenv
+requests
+langchain_groq
+langchain-deepseek
+langchain-openai
+# logging
