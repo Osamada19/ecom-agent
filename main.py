@@ -11,6 +11,7 @@ from langchain_core.messages import HumanMessage
 from agent import agent
 from fastapi import BackgroundTasks
 from langchain_core.messages import ToolMessage
+from alerts import send_alert
 
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -81,6 +82,9 @@ def process_customer_message(phone: str, text: str):
     except Exception as e:
         err_str = str(e).lower()
         logger.error(f"Agent error for {phone}: {e}", exc_info=True)
+        # Alert: agent crashed processing a customer message
+        send_alert("agent_crash", "Agent processing error",
+                    f"Error for customer {phone}: {e}")
 
         if any(kw in err_str for kw in ("tool_use_failed", "failed to call", "tool call", "toolexception")):
             reply = (
@@ -125,6 +129,21 @@ async def receive(request: Request, background_tasks: BackgroundTasks):
 
     try:
         entry = data["entry"][0]["changes"][0]["value"]
+
+        # Handle delivery status updates from Meta (sent, delivered, read, failed)
+        for status in entry.get("statuses", []):
+            s = status.get("status")
+            recipient = status.get("recipient_id", "unknown")
+            if s == "failed":
+                err = status.get("errors", [{}])[0]
+                code = err.get("code", "?")
+                title = err.get("title", "unknown error")
+                logger.error(f"WhatsApp delivery failed to {recipient}: [{code}] {title}")
+                send_alert("wa_delivery_failed", "WhatsApp delivery failed",
+                            f"Recipient: {recipient}\nError: [{code}] {title}")
+            else:
+                logger.debug(f"WhatsApp status '{s}' for {recipient}")
+
         if "messages" not in entry:
             return {"status": "ignored"}
         msg = entry["messages"][0]
@@ -190,7 +209,12 @@ def _send(to, text):
         resp = requests.post(url, headers=headers, json=payload, timeout=10)
         if resp.status_code >= 400:
             logger.error(f"WhatsApp API error [{resp.status_code}]: {resp.text}")
+            # Alert: outbound message delivery failed
+            send_alert("wa_send_fail", "WhatsApp send failed",
+                        f"Status {resp.status_code} sending to {to}.\nAPI response: {resp.text}")
         else:
             logger.info(f"WhatsApp message sent successfully to {to} [{resp.status_code}]")
     except Exception as e:
         logger.error(f"Send failed: {e}")
+        send_alert("wa_send_exception", "WhatsApp send exception",
+                    f"Exception sending to {to}: {e}")
