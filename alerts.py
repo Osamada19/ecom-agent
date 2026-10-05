@@ -1,30 +1,25 @@
 """
-Centralized alerting — all notifications route through send_alert().
-Swap this file later for Sentry, PagerDuty, or a fleet dashboard.
+Centralized alerting — all notifications route through send_alert() via Telegram.
 """
 import os
 import re
 import time
 import logging
-import smtplib
 import threading
-from email.mime.text import MIMEText
+import requests
 
 logger = logging.getLogger(__name__)
 
-# Rate-limit: max 1 email per key every 15 minutes
+# Rate-limit: max 1 alert per key every 15 minutes
 _last_sent: dict[str, float] = {}
 _COOLDOWN = 900  # seconds
 
-SMTP_HOST = os.getenv("SMTP_HOST")
-SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USER = os.getenv("SMTP_USER")
-SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
-ALERT_EMAIL_TO = os.getenv("ALERT_EMAIL_TO")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 STORE_NAME = os.getenv("STORE_NAME", "ElectroMA")
 
-# True only if all required SMTP vars are present
-_SMTP_CONFIGURED = all([SMTP_HOST, SMTP_USER, SMTP_PASSWORD, ALERT_EMAIL_TO])
+# True only if both required Telegram vars are present
+_TELEGRAM_CONFIGURED = bool(TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID)
 
 
 def _mask_phones(text: str) -> str:
@@ -32,32 +27,36 @@ def _mask_phones(text: str) -> str:
     return re.sub(r"\b(\+?\d{5,})\b", lambda m: "***" + m.group(1)[-4:], text)
 
 
-def _send_email(subject: str, body: str):
-    """Blocking email send — always called from a background thread."""
+def _send_telegram(subject: str, body: str):
+    """Blocking Telegram send — always called from a background thread."""
     try:
-        msg = MIMEText(_mask_phones(body))
-        msg["Subject"] = f"[{STORE_NAME}] {subject}"
-        msg["From"] = SMTP_USER
-        msg["To"] = ALERT_EMAIL_TO
+        masked_body = _mask_phones(body)
+        message = f"🚨 [{STORE_NAME}] {subject}\n\n{masked_body}"
 
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as server:
-            server.starttls()
-            server.login(SMTP_USER, SMTP_PASSWORD)
-            server.sendmail(SMTP_USER, [ALERT_EMAIL_TO], msg.as_string())
-        logger.info(f"Alert email sent: {subject}")
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        payload = {
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": message,
+        }
+        resp = requests.post(url, json=payload, timeout=10)
+        if resp.status_code != 200:
+            logger.error(f"Telegram alert failed [{resp.status_code}]: {resp.text}")
+        else:
+            logger.info(f"Telegram alert sent: {subject}")
     except Exception as e:
-        logger.error(f"Alert email failed: {e}", exc_info=True)
+        logger.error(f"Telegram alert error: {e}", exc_info=True)
 
 
-def send_alert(key: str, subject: str, body: str):
+def send_alert(key: str, subject: str, body: str, sync: bool = False):
     """
-    Fire-and-forget alert. Never raises, never blocks the caller.
-    - key: dedup key for rate-limiting (e.g. "wa_send_fail", "agent_crash")
-    - subject: email subject line
-    - body: email body (phone numbers are auto-masked)
-    Skips silently if SMTP is not configured or cooldown hasn't elapsed.
+    Fire-and-forget alert (or blocking if sync=True). Never raises, never blocks the caller.
+    - key: dedup key for rate-limiting (e.g. "wa_send_fail", "agent_crash", "kb_ingest_fail")
+    - subject: alert title
+    - body: alert message (phone numbers are auto-masked)
+    - sync: if True, waits for the background thread to finish before returning
+    Skips silently if Telegram is not configured or cooldown hasn't elapsed.
     """
-    if not _SMTP_CONFIGURED:
+    if not _TELEGRAM_CONFIGURED:
         return
 
     now = time.time()
@@ -65,5 +64,9 @@ def send_alert(key: str, subject: str, body: str):
         return
     _last_sent[key] = now
 
-    threading.Thread(target=_send_email, args=(subject, body), daemon=True).start()
+    thread = threading.Thread(target=_send_telegram, args=(subject, body), daemon=True)
+    thread.start()
+    if sync:
+        thread.join(timeout=15)
+
 

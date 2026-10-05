@@ -12,6 +12,9 @@ from agent import agent
 from fastapi import BackgroundTasks
 from langchain_core.messages import ToolMessage
 from alerts import send_alert
+import asyncio
+from contextlib import asynccontextmanager
+from ingest import ingest
 
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -20,7 +23,34 @@ logger = logging.getLogger(__name__)
 _processed = OrderedDict()
 _escalated = set()
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Runs automatically on every startup / redeploy."""
+    if os.getenv("AUTO_INGEST_ON_STARTUP", "true").lower() in ("true", "1", "yes"):
+        logger.info("Redeploy/startup detected: running knowledge base ingestion...")
+        try:
+            await asyncio.to_thread(ingest, sync_alert=True)
+            logger.info("Knowledge base ingestion finished successfully on startup.")
+        except Exception as e:
+            logger.error(f"Startup knowledge base ingestion failed: {e}", exc_info=True)
+            # ingest() has already dispatched an email alert via send_alert()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
+
+
+
+@app.api_route("/ingest", methods=["GET", "POST"])
+async def trigger_ingest(background_tasks: BackgroundTasks):
+    """Trigger knowledge base re-ingestion in the background with failure alerts."""
+    background_tasks.add_task(ingest, sync_alert=False)
+    return {
+        "status": "ok",
+        "message": "Knowledge base ingestion started. An email alert will be sent if ingestion fails."
+    }
+
 
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
 WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")
