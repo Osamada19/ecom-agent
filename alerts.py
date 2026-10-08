@@ -7,7 +7,8 @@ import time
 import logging
 import threading
 import requests
-
+from dotenv import load_dotenv
+load_dotenv()
 logger = logging.getLogger(__name__)
 
 # Rate-limit: max 1 alert per key every 15 minutes

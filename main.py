@@ -17,12 +17,15 @@ from contextlib import asynccontextmanager
 from ingest import ingest
 
 
+#universal logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
 
 _processed = OrderedDict()
 _escalated = set()
 
+# replacement for ingest()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -34,22 +37,13 @@ async def lifespan(app: FastAPI):
             logger.info("Knowledge base ingestion finished successfully on startup.")
         except Exception as e:
             logger.error(f"Startup knowledge base ingestion failed: {e}", exc_info=True)
-            # ingest() has already dispatched an email alert via send_alert()
+            # ingest() has already dispatched a telegram alert via send_alert()
     yield
 
 
 app = FastAPI(lifespan=lifespan)
 
 
-
-@app.api_route("/ingest", methods=["GET", "POST"])
-async def trigger_ingest(background_tasks: BackgroundTasks):
-    """Trigger knowledge base re-ingestion in the background with failure alerts."""
-    background_tasks.add_task(ingest, sync_alert=False)
-    return {
-        "status": "ok",
-        "message": "Knowledge base ingestion started. An email alert will be sent if ingestion fails."
-    }
 
 
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
