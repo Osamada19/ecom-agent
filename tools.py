@@ -3,6 +3,7 @@ from vector_store import retriever
 import os
 import logging
 import requests
+from alerts import send_alert
 
 logger = logging.getLogger(__name__)
 
@@ -288,10 +289,13 @@ def escalate_to_human(reason: str, language: str, user_phone: str) -> str:
         logger.info(f"Escalation owner notification sent. Reason: {reason}, Language: {language}")
     except Exception as e:
         logger.error(f"escalate_to_human owner notify failed: {e}", exc_info=True)
+        send_alert(
+            "escalate_notify_fail",
+            "Escalation owner notification failed",
+            f"Failed to notify owner via WhatsApp for customer {user_phone}.\nReason: {reason}\nLanguage: {language}\nError: {e}"
+        )
 
-    # Always return the trigger — even if the WhatsApp call failed,
-    # the customer still gets the escalation message.
-    return f"[ESCALATE_TRIGGERED:{language}]"
+    return "Escalation done. Owner notified via WhatsApp."
 
 
 

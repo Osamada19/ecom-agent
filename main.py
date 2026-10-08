@@ -7,10 +7,9 @@ from collections import OrderedDict
 import requests
 from fastapi import FastAPI, Request
 from fastapi.responses import PlainTextResponse
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, AIMessage
 from agent import agent
 from fastapi import BackgroundTasks
-from langchain_core.messages import ToolMessage
 from alerts import send_alert
 import asyncio
 from contextlib import asynccontextmanager
@@ -23,7 +22,6 @@ logger = logging.getLogger(__name__)
 
 
 _processed = OrderedDict()
-_escalated = set()
 
 # replacement for ingest()
 
@@ -68,9 +66,11 @@ def process_customer_message(phone: str, text: str):
     """Process agent logic in the background so Meta gets a 200 OK immediately."""
     reply = None
     try:
+        config = {"configurable": {"thread_id": phone}}
+        n_before = len(agent.get_state(config).values.get("messages", []))
         result = agent.invoke(
             {"messages": [HumanMessage(content=f"{text}\n\n[Internal Context: Customer WhatsApp {phone}]")]},
-            config={"configurable": {"thread_id": phone}}
+            config=config
         )
         reply = result["messages"][-1].content
         if isinstance(reply, list):
@@ -78,21 +78,24 @@ def process_customer_message(phone: str, text: str):
         elif reply is not None:
             reply = str(reply)
 
+        new_messages = result["messages"][n_before:]
+
         # ESCALATION INTERCEPT
         try:
-            last_tool = next(
-                (m for m in reversed(result["messages"]) if isinstance(m, ToolMessage)),
-                None
-            )
-            if last_tool and "[ESCALATE_TRIGGERED" in last_tool.content and phone not in _escalated:
-                _escalated.add(phone)
-                lang = "english"
-                try:
-                    lang = last_tool.content.split("[ESCALATE_TRIGGERED:")[1].split("]")[0].lower()
-                except Exception as e:
-                    logger.warning(f"Could not parse escalation language for {phone}: {e}. Defaulting to english.")
-                reply = ESCALATION_MSGS.get(lang, ESCALATION_MSGS["english"])
-                logger.info(f"Escalation triggered for {phone} in lang={lang}")
+            for m in new_messages:
+                if isinstance(m, AIMessage) and getattr(m, "tool_calls", None):
+                    esc_call = next(
+                        (tc for tc in m.tool_calls if tc.get("name") == "escalate_to_human"),
+                        None
+                    )
+                    if esc_call:
+                        lang = esc_call.get("args", {}).get("language", "english")
+                        if not lang:
+                            lang = "english"
+                        lang = str(lang).lower()
+                        reply = ESCALATION_MSGS.get(lang, ESCALATION_MSGS["english"])
+                        logger.info(f"Escalation triggered for {phone} in lang={lang}")
+                        break
         except Exception as esc_err:
             logger.error(f"Escalation intercept failed for {phone}: {esc_err}", exc_info=True)
 
