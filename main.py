@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 # Core libraries for system operations, hashing, logging, and data structures.
 import os
-import hashlib
+import hashlib  
 import logging
 from collections import OrderedDict
 # HTTP requests client for making API calls to WhatsApp.
@@ -83,6 +83,8 @@ async def verify(request: Request):
     params = dict(request.query_params)
     # Check if Meta's verify token matches ours; return hub.challenge on success or 403 on failure.
     return PlainTextResponse(params.get("hub.challenge")) if params.get("hub.verify_token") == VERIFY_TOKEN else PlainTextResponse("Invalid", status_code=403)
+
+
 
 
 # Runs the AI agent logic and dispatches the answer to WhatsApp in a background thread.
@@ -177,9 +179,14 @@ def process_customer_message(phone: str, text: str):
                 "Sorry, I'm having trouble. Please try again or contact support at +212-6XX-XXXXXX."
             )
 
+        print(config)
+
     # If an answer was generated, send it back to the customer on WhatsApp.
     if reply:
         _send(phone, reply)
+
+
+
 
 
 # Receives incoming webhook events (messages, status updates) from Meta WhatsApp Cloud API.
@@ -226,9 +233,9 @@ async def receive(request: Request, background_tasks: BackgroundTasks):
         msg = entry["messages"][0]
         phone = msg["from"]
 
-        # Ignore incoming messages from the owner's phone number to avoid bot response loops.
-        if phone == os.getenv("OWNER_PHONE"):
-            return {"status": "ignored"}
+        # # Ignore incoming messages from the owner's phone number to avoid bot response loops.
+        # if phone == os.getenv("OWNER_PHONE"):
+        #     return {"status": "ignored"}
 
         # Identify the type of message received (text, image, audio, location).
         msg_type = msg.get("type")

@@ -117,7 +117,8 @@ You have ZERO internal memory about this store. Every answer about products, pri
 llm = ChatDeepSeek(
     model="deepseek-flash",
     temperature=0,
-    api_key=os.getenv("DeepSeek_api_key")
+    api_key=os.getenv("DeepSeek_api_key"),
+    timeout=60
 )
 
 # # Option 5: OpenAI Direct (Uncomment if using OPENAI_API_KEY)
