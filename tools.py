@@ -240,12 +240,71 @@ def lookup_order(order_id: str) -> str:
 
 
 
+## escalation with the template
+# @tool
+# def escalate_to_human(reason: str, language: str, user_phone: str) -> str:
+#     """
+#     Escalate to human agent and notify the store owner via WhatsApp, using an approved template
+#     (works even if the owner hasn't messaged the bot in the last 24 hours).
+
+#     Use ONLY when user explicitly asks for a human agent, or is extremely angry.
+
+#     Args:
+#         reason: brief description of why escalation is needed (e.g. 'customer requested human', 'very angry about wrong item').
+#         user_phone: the customer's WhatsApp number already in conversation context — never ask for it.
+#         language: the language the customer is using. Must be exactly one of: english, french, arabic, darija
+#     """
+#     owner_number = os.getenv("OWNER_PHONE")
+#     token = os.getenv("WHATSAPP_TOKEN")
+#     phone_id = os.getenv("PHONE_NUMBER_ID")
+
+#     payload = {
+#         "messaging_product": "whatsapp",
+#         "to": owner_number,
+#         "type": "template",
+#         "template": {
+#             "name": "escalation_request",
+#             "language": {"code": "ar"},
+#             "components": [
+#                 {
+#                     "type": "body",
+#                     "parameters": [
+#                         {"type": "text", "text": user_phone},
+#                         {"type": "text", "text": reason},
+#                         {"type": "text", "text": language},
+#                     ]
+#                 }
+#             ]
+#         }
+#     }
+
+#     try:
+#         resp = requests.post(
+#             f"https://graph.facebook.com/v19.0/{phone_id}/messages",
+#             headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+#             json=payload,
+#             timeout=10
+#         )
+#         resp.raise_for_status()
+#         logger.info(f"Escalation owner notification sent. Reason: {reason}, Language: {language}")
+#     except Exception as e:
+#         logger.error(f"escalate_to_human owner notify failed: {e}", exc_info=True)
+#         send_alert(
+#             "escalate_notify_fail",
+#             "Escalation owner notification failed",
+#             f"Failed to notify owner via WhatsApp for customer {user_phone}.\nReason: {reason}\nLanguage: {language}\nError: {e}"
+#         )
+
+#     return "Escalation done. Owner notified via WhatsApp."
+
+
+
 
 @tool
 def escalate_to_human(reason: str, language: str, user_phone: str) -> str:
     """
-    Escalate to human agent and notify the store owner via WhatsApp, using an approved template
-    (works even if the owner hasn't messaged the bot in the last 24 hours).
+    Escalate to human agent and notify the store owner via WhatsApp, 
+
 
     Use ONLY when user explicitly asks for a human agent, or is extremely angry.
 
@@ -253,29 +312,27 @@ def escalate_to_human(reason: str, language: str, user_phone: str) -> str:
         reason: brief description of why escalation is needed (e.g. 'customer requested human', 'very angry about wrong item').
         user_phone: the customer's WhatsApp number already in conversation context — never ask for it.
         language: the language the customer is using. Must be exactly one of: english, french, arabic, darija
+
+    for the message that will be sent to users , it should be like this , with this format : 
+    
+    reason : [reason of escalation]
+    language : [language of the user]
+    user phone : [phone number of the user]
     """
     owner_number = os.getenv("OWNER_PHONE")
     token = os.getenv("WHATSAPP_TOKEN")
     phone_id = os.getenv("PHONE_NUMBER_ID")
 
+    message=f" Human Agent needed . {reason}\n  {language} \n  {user_phone}"
+
+
     payload = {
         "messaging_product": "whatsapp",
         "to": owner_number,
-        "type": "template",
-        "template": {
-            "name": "escalation_request",
-            "language": {"code": "ar"},
-            "components": [
-                {
-                    "type": "body",
-                    "parameters": [
-                        {"type": "text", "text": user_phone},
-                        {"type": "text", "text": reason},
-                        {"type": "text", "text": language},
-                    ]
-                }
-            ]
-        }
+        "type": "text",
+        "text": {"body":message}
+            
+        
     }
 
     try:
@@ -287,91 +344,18 @@ def escalate_to_human(reason: str, language: str, user_phone: str) -> str:
         )
         resp.raise_for_status()
         logger.info(f"Escalation owner notification sent. Reason: {reason}, Language: {language}")
+        return f"Escalation owner notification sent. Reason: {reason}, Language: {language}"
     except Exception as e:
         logger.error(f"escalate_to_human owner notify failed: {e}", exc_info=True)
+        
         send_alert(
             "escalate_notify_fail",
             "Escalation owner notification failed",
             f"Failed to notify owner via WhatsApp for customer {user_phone}.\nReason: {reason}\nLanguage: {language}\nError: {e}"
         )
+        return f"escalate_to_human owner notify failed"
 
-    return "Escalation done. Owner notified via WhatsApp."
-
-
-
-
-@tool
-def notify_owner(name: str, phone: str, product: str, color: str, size: str, quantity: str, address: str, payment: str) -> str:
-    """
-    Send a confirmed order to the store owner via WhatsApp, using an approved template
-    (works even if the owner hasn't messaged the bot in the last 24 hours).
-
-    Call this tool ONLY after ALL three conditions are met:
-    1. All order details are collected: name, product, color, size, quantity, address, city, payment method.
-    2. The full order summary was shown to the customer.
-    3. The customer explicitly confirmed or indicated agreement in ANY way, language, or affirmative word or phrase (e.g. ah, iyeh, oui, yes, d'accord, confirm, etc.).
-
-    Customer phone is already in the conversation context — extract it automatically.
-    NEVER ask the customer for their phone number.
-
-    Args:
-        name: customer full name
-        phone: customer WhatsApp number (from context, never ask)
-        product: product name
-        color: product color
-        size: size if applicable (accessories like helmets), empty string if not applicable
-        quantity: quantity ordered
-        address: full delivery address including city
-        payment: "COD" or payment method used
-    """
-    owner_number = os.getenv("OWNER_PHONE")
-    token = os.getenv("WHATSAPP_TOKEN")
-    phone_id = os.getenv("PHONE_NUMBER_ID")
-
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": owner_number,
-        "type": "template",
-        "template": {
-            "name": "new_order_notification",
-            "language": {"code": "ar"},
-            "components": [
-                {
-                    "type": "body",
-                    "parameters": [
-                        {"type": "text", "text": "ElectroMA"},
-                        {"type": "text", "text": name},
-                        {"type": "text", "text": phone},
-                        {"type": "text", "text": product},
-                        {"type": "text", "text": color},
-                        {"type": "text", "text": size or "-"},
-                        {"type": "text", "text": quantity},
-                        {"type": "text", "text": address},
-                        {"type": "text", "text": payment},
-                    ]
-                }
-            ]
-        }
-    }
-
-    try:
-        resp = requests.post(
-            f"https://graph.facebook.com/v19.0/{phone_id}/messages",
-            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
-            json=payload,
-            timeout=10
-        )
-        resp.raise_for_status()
-        return "Order sent to store owner. Tell the customer: the owner will confirm their order shortly via WhatsApp."
-    except requests.exceptions.Timeout:
-        logger.error("notify_owner timed out sending WhatsApp message to owner")
-        return "The order notification timed out. Please ask the customer to try confirming again in a moment."
-    except requests.exceptions.HTTPError as e:
-        logger.error(f"notify_owner HTTP error: {e}", exc_info=True)
-        return "There was a problem sending the order to the owner. Please try again or contact support."
-    except Exception as e:
-        logger.error(f"notify_owner failed: {e}", exc_info=True)
-        return "I couldn't send the order notification right now. Please try again in a moment."
+    
 
 
 
@@ -379,52 +363,68 @@ def notify_owner(name: str, phone: str, product: str, color: str, size: str, qua
 
 
 
- 
+## notify owner with template 
 
-
-
-# ## notify order tool exaclty before doing the template : 
 
 # @tool
-# def notify_owner(order_summary: str) -> str:
+# def notify_owner(name: str, phone: str, product: str, color: str, size: str, quantity: str, address: str, payment: str) -> str:
 #     """
-#      Send a confirmed order to the store owner via WhatsApp.
+#     Send a confirmed order to the store owner via WhatsApp, using an approved template
+#     (works even if the owner hasn't messaged the bot in the last 24 hours).
 
 #     Call this tool ONLY after ALL three conditions are met:
 #     1. All order details are collected: name, product, color, size, quantity, address, city, payment method.
-#     2. The full order summary was shown to the customer .
-#     3. The customer explicitly confirmed with yes / iyeh / oui / nam.
+#     2. The full order summary was shown to the customer.
+#     3. The customer explicitly confirmed or indicated agreement in ANY way, language, or affirmative word or phrase (e.g. ah, iyeh, oui, yes, d'accord, confirm, etc.).
 
 #     Customer phone is already in the conversation context — extract it automatically.
 #     NEVER ask the customer for their phone number.
 
-#     Format order_summary EXACTLY like this:
-#     الاسم: [name]
-#     الهاتف: [customer phone from context]
-#     المنتج: [product name]
-#     اللون: [color]
-#     المقاس: [size]
-#     الكمية: [quantity]
-#     العنوان: [full address + city]
-#     الدفع: [COD or card]
-    
+#     Args:
+#         name: customer full name
+#         phone: customer WhatsApp number (from context, never ask)
+#         product: product name
+#         color: product color
+#         size: size if applicable (accessories like helmets), empty string if not applicable
+#         quantity: quantity ordered
+#         address: full delivery address including city
+#         payment: "COD" or payment method used
 #     """
 #     owner_number = os.getenv("OWNER_PHONE")
 #     token = os.getenv("WHATSAPP_TOKEN")
 #     phone_id = os.getenv("PHONE_NUMBER_ID")
 
-#     message = f"🛒 *طلب جديد*\n\n{order_summary}\n\n_تم جمع الطلب بواسطة RELIA — يرجى تأكيده مع العميل._"
+#     payload = {
+#         "messaging_product": "whatsapp",
+#         "to": owner_number,
+#         "type": "template",
+#         "template": {
+#             "name": "new_order_notification",
+#             "language": {"code": "ar"},
+#             "components": [
+#                 {
+#                     "type": "body",
+#                     "parameters": [
+#                         {"type": "text", "text": "ElectroMA"},
+#                         {"type": "text", "text": name},
+#                         {"type": "text", "text": phone},
+#                         {"type": "text", "text": product},
+#                         {"type": "text", "text": color},
+#                         {"type": "text", "text": size or "-"},
+#                         {"type": "text", "text": quantity},
+#                         {"type": "text", "text": address},
+#                         {"type": "text", "text": payment},
+#                     ]
+#                 }
+#             ]
+#         }
+#     }
 
 #     try:
 #         resp = requests.post(
 #             f"https://graph.facebook.com/v19.0/{phone_id}/messages",
 #             headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
-#             json={
-#                 "messaging_product": "whatsapp",
-#                 "to": owner_number,
-#                 "type": "text",
-#                 "text": {"body": message}
-#             },
+#             json=payload,
 #             timeout=10
 #         )
 #         resp.raise_for_status()
@@ -438,6 +438,72 @@ def notify_owner(name: str, phone: str, product: str, color: str, size: str, qua
 #     except Exception as e:
 #         logger.error(f"notify_owner failed: {e}", exc_info=True)
 #         return "I couldn't send the order notification right now. Please try again in a moment."
+
+
+
+
+
+
+
+ 
+
+
+
+## notify order tool exaclty before doing the template : 
+
+@tool
+def notify_owner(order_summary: str) -> str:
+    """
+     Send a confirmed order to the store owner via WhatsApp.
+
+    Call this tool ONLY after ALL three conditions are met:
+    1. All order details are collected: name, product, color, size, quantity, address, city, payment method.
+    2. The full order summary was shown to the customer .
+    3. The customer explicitly confirmed with yes / iyeh / oui / nam.
+
+    Customer phone is already in the conversation context — extract it automatically.
+    NEVER ask the customer for their phone number.
+
+    Format order_summary EXACTLY like this:
+    الاسم: [name]
+    الهاتف: [customer phone from context]
+    المنتج: [product name]
+    اللون: [color]
+    المقاس: [size]
+    الكمية: [quantity]
+    العنوان: [full address + city]
+    الدفع: [COD or card]
+    
+    """
+    owner_number = os.getenv("OWNER_PHONE")
+    token = os.getenv("WHATSAPP_TOKEN")
+    phone_id = os.getenv("PHONE_NUMBER_ID")
+
+    message = f"🛒 *طلب جديد*\n\n{order_summary}\n\n_تم جمع الطلب بواسطة RELIA — يرجى تأكيده مع العميل._"
+
+    try:
+        resp = requests.post(
+            f"https://graph.facebook.com/v19.0/{phone_id}/messages",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json={
+                "messaging_product": "whatsapp",
+                "to": owner_number,
+                "type": "text",
+                "text": {"body": message}
+            },
+            timeout=10
+        )
+        resp.raise_for_status()
+        return "Order sent to store owner. Tell the customer: the owner will confirm their order shortly via WhatsApp."
+    except requests.exceptions.Timeout:
+        logger.error("notify_owner timed out sending WhatsApp message to owner")
+        return "The order notification timed out. Please ask the customer to try confirming again in a moment."
+    except requests.exceptions.HTTPError as e:
+        logger.error(f"notify_owner HTTP error: {e}", exc_info=True)
+        return "There was a problem sending the order to the owner. Please try again or contact support."
+    except Exception as e:
+        logger.error(f"notify_owner failed: {e}", exc_info=True)
+        return "I couldn't send the order notification right now. Please try again in a moment."
 
 
 
