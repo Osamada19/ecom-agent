@@ -90,7 +90,7 @@ You have ZERO internal memory about this store. Every answer about products, pri
 # LLM Provider Configuration
 # ---------------------------------------------------------------------------
 
-# # Option 1: OpenRouter (Default: fast, high-accuracy multi-lingual model)
+# # Option 1: OpenRouter 
 # llm = ChatOpenAI(
 #     model=os.getenv("LLM_MODEL", "google/gemini-3.8-flash"),
 #     temperature=0,
@@ -99,21 +99,21 @@ You have ZERO internal memory about this store. Every answer about products, pri
 #     openai_api_base="https://openrouter.ai/api/v1"
 # )  
 
-# # Option 2: Google Direct (Uncomment if using direct GOOGLE_API_KEY)
+# # Option 2: Google Direct 
 # llm = ChatGoogleGenerativeAI(
 #     model="gemini-2.5-flash",
 #     temperature=0,
 #     google_api_key=os.getenv("GOOGLE_API_KEY")
 # )
 
-# # Option 3: Groq (Uncomment if using GROQ_API_KEY)
+# # Option 3: Groq 
 # llm = ChatGroq(
 #     model="llama-3.3-70b-versatile",
 #     temperature=0,
 ##     api_key=os.getenv("GROQ_API_KEY")
 # )
 
-# Option 4: DeepSeek (Uncomment if using DeepSeek_api_key)
+# Option 4: DeepSeek 
 llm = ChatDeepSeek(
     model="deepseek-flash",
     temperature=0,
@@ -121,7 +121,7 @@ llm = ChatDeepSeek(
     timeout=60
 )
 
-# # Option 5: OpenAI Direct (Uncomment if using OPENAI_API_KEY)
+# # Option 5: OpenAI Direct 
 # llm = ChatOpenAI(
 #     model="gpt-4o-mini",
 #     temperature=0,
@@ -136,21 +136,42 @@ conn.commit()
 
 memory = SqliteSaver(conn)
 
+from langchain_core.messages import AIMessage, ToolMessage
 
+
+#to make the agent re run a task(a tool ) if it was stopped mid restarting or crashing . 
+def fix_dangling_tool_calls(messages):
+    answered = {m.tool_call_id for m in messages if isinstance(m, ToolMessage)}
+    fixed = []
+    for m in messages:
+        fixed.append(m)
+        if isinstance(m, AIMessage) and getattr(m, "tool_calls", None):
+            for tc in m.tool_calls:
+                if tc["id"] not in answered:
+                    fixed.append(ToolMessage(
+                        content="Tool call was interrupted and returned no result.",
+                        tool_call_id=tc["id"],
+                    ))
+    return fixed
+
+
+# trimming messages , keeping only last 30 messages .
 def prompt_with_trimming(state):
     """
-    Keep the system prompt intact and trim conversation history to the last 16 messages.
+    Keep the system prompt intact and trim conversation history to the last 30 messages.
     Guarantees:
     - History always starts cleanly on a HumanMessage (no orphaned ToolMessages).
     - Prevents context bloat and token cost explosion across long conversations.
     """
     messages = state.get("messages", []) if isinstance(state, dict) else getattr(state, "messages", [])
+    messages = fix_dangling_tool_calls(messages)
+
     trimmed = trim_messages(
         messages,
         max_tokens=30,
         strategy="last",
         token_counter=len,
-        start_on="human",
+        start_on="human", 
         allow_partial=False,
     )
     return [SystemMessage(content=SYSTEM_PROMPT)] + trimmed
