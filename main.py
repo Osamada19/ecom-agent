@@ -1,29 +1,34 @@
-# Load environment variables (API keys, tokens) from the .env file.
+
 from dotenv import load_dotenv
 load_dotenv()
-# Core libraries for system operations, hashing, logging, and data structures.
+
 import os
 import hashlib  
 import logging
 from collections import OrderedDict
+from tools import escalate_to_human
+
 # HTTP requests client for making API calls to WhatsApp.
 import requests
-# Web framework components for handling HTTP requests and responses.
+
 from fastapi import FastAPI, Request
 from fastapi.responses import PlainTextResponse
 # Message data types for communicating with LangChain chat models.
-from langchain_core.messages import HumanMessage, AIMessage
-# Pre-configured LangChain agent instance with tools and conversation memory.
+from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
+
 from agent import agent
 # Background tasks runner for executing long operations without delaying HTTP responses.
 from fastapi import BackgroundTasks
-# Alerting helper to send notifications (e.g. to Telegram) when errors occur.
+
 from alerts import send_alert
 # Async utilities for running non-blocking tasks and managing server lifecycles.
 import asyncio
 from contextlib import asynccontextmanager
-# Knowledge base ingestion function to populate ChromaDB.
+
 from ingest import ingest
+from chat_log import log_message
+from dashboard import register_dashboard
+
 
 
 #universal logging
@@ -59,7 +64,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-
+register_dashboard(app)
 
 # Meta WhatsApp Cloud API credentials and verification tokens loaded from environment variables.
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
@@ -91,6 +96,7 @@ async def verify(request: Request):
 # This prevents WhatsApp timeouts by letting the webhook reply with HTTP 200 OK right away.
 def process_customer_message(phone: str, text: str):
     """Process agent logic in the background so Meta gets a 200 OK immediately."""
+    log_message(phone, "customer", text)
     reply = None
     try:
         # Use the customer's phone number as the thread ID to maintain continuous chat history for each customer.
@@ -130,9 +136,26 @@ def process_customer_message(phone: str, text: str):
                         if not lang:
                             lang = "english"
                         lang = str(lang).lower()
+                        #Catching failed escalations .
+                        esc_id = esc_call.get("id")
+                        esc_result = None
+                        for tm in new_messages:
+                            if isinstance(tm, ToolMessage) and tm.tool_call_id == esc_id:
+                                esc_result = tm.content
+                                break
+    
+                        failed = esc_result is None or "failed" in str(esc_result).lower()
+                        if failed:
+                            retry_args = esc_call.get("args", {})
+                            retry_result = escalate_to_human.invoke(retry_args)
+                            failed = "failed" in str(retry_result).lower()
+                             
                         reply = ESCALATION_MSGS.get(lang, ESCALATION_MSGS["english"])
                         logger.info(f"Escalation triggered for {phone} in lang={lang}")
                         break
+                    
+
+
         except Exception as esc_err:
             logger.error(f"Escalation intercept failed for {phone}: {esc_err}", exc_info=True)
 
@@ -313,6 +336,7 @@ def _send(to, text):
                         f"Status {resp.status_code} sending to {to}.\nAPI response: {resp.text}")
         else:
             logger.info(f"WhatsApp message sent successfully to {to} [{resp.status_code}]")
+            log_message(to, "agent", text)
     # Catch any unexpected network or execution exceptions during sending.
     except Exception as e:
         logger.error(f"Send failed: {e}")
