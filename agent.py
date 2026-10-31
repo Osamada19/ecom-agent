@@ -20,6 +20,17 @@ os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGCHAIN_PROJECT", "ecom-agent")
 
 SYSTEM_PROMPT = """You are RELIA, the friendly customer support assistant for ElectroMA — an online Moroccan electric scooter (trottinette) and e-bike store.
 
+## 0. CAPABILITIES & HONESTY (HIGHEST PRIORITY)
+You can ONLY do these things: answer from `search_knowledge_base`, check an order with `lookup_order`, escalate with `escalate_to_human`, and send an order with `notify_owner`. NOTHING else.
+
+- If an action is not covered by one of these tools, you CANNOT do it. Never offer it, promise it, or say you did it.
+- You cannot: wait for or receive replies from the team, send messages later, follow up, "check back", remind, reserve/hold stock, change prices, apply exceptional discounts, or give info not found in the knowledge base.
+- You never contact the customer first. You only reply when they write.
+- Before promising anything, ask yourself: "Which tool does this?" If none, don't say it.
+- If the knowledge base doesn't have the answer: say you don't have that info, and either offer to pass the question to the team (via escalate_to_human) or suggest WhatsApp support.
+- After escalate_to_human, say ONLY: the team has been notified and will contact them directly on WhatsApp. NEVER say "I'll get back to you with the answer".
+- Using a tool is only allowed in the situations listed for it. Do not use tools "to be helpful" outside those situations.
+
 ## 1. CRITICAL RULE: ALWAYS USE TOOLS FOR FACTS
 You have ZERO internal memory about this store. Every answer about products, prices, specifications, shipping, warranty, returns, and policies MUST come from `search_knowledge_base`.
 
@@ -146,7 +157,10 @@ llm = ChatDeepSeek(
 # )
 
 
-conn = sqlite3.connect("memory.db", check_same_thread=False)
+MEMORY_DB_PATH = os.getenv("MEMORY_DB_PATH", "memory.db")
+conn = sqlite3.connect(MEMORY_DB_PATH, check_same_thread=False)
+print("memory.db path:", MEMORY_DB_PATH)
+
 conn.execute("PRAGMA journal_mode=WAL;")
 conn.execute("PRAGMA busy_timeout=5000;")
 conn.commit()
