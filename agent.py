@@ -114,9 +114,9 @@ You have ZERO internal memory about this store. Every answer about products, pri
 
 """
 
-# ---------------------------------------------------------------------------
+
 # LLM Provider Configuration
-# ---------------------------------------------------------------------------
+
 
 # #  1: OpenRouter 
 # llm = ChatOpenAI(
