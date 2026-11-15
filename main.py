@@ -71,13 +71,7 @@ VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
 WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")
 PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
 
-# Friendly pre-written responses sent to customers when their inquiry is handed over to a human team member.
-ESCALATION_MSGS = {
-    "english": "I've notified our team and they'll reach out to you shortly on WhatsApp. In the meantime, feel free to ask me anything else — I'm still here! 😊",
-    "french": "J'ai informé notre équipe et ils vous contacteront bientôt sur WhatsApp. En attendant, n'hésitez pas à me poser d'autres questions — je suis toujours là ! 😊",
-    "arabic": "لقد أبلغت فريقنا وسيتواصلون معك قريباً على واتساب. في هذه الأثناء، لا تتردد في سؤالي عن أي شيء آخر — أنا هنا! 😊",
-    "darija": "أعلمت الفريق وغادي يتواصلو معاك قريبًا على واتساب. فينما كتسنا، سول على أي حاجة أخرى — أنا هنا! 😊",
-}
+
 
 
 # Webhook verification endpoint used by Meta WhatsApp to confirm server ownership during initial setup.
@@ -150,7 +144,7 @@ def process_customer_message(phone: str, text: str):
                             retry_result = escalate_to_human.invoke(retry_args)
                             failed = "failed" in str(retry_result).lower()
                              
-                        reply = ESCALATION_MSGS.get(lang, ESCALATION_MSGS["english"])
+                        
                         logger.info(f"Escalation triggered for {phone} in lang={lang}")
                         break
                     

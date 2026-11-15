@@ -2,11 +2,9 @@
 Run this ONCE to load your knowledge base into ChromaDB.
 Usage: python ingest.py
 """
-# Import standard library tools for file paths, regex pattern matching, and error logging.
 import os
 import re
 import logging
-# Load environment variables from the .env file.
 from dotenv import load_dotenv
 load_dotenv()
 
