@@ -119,15 +119,16 @@ A: Covered under warranty if within the warranty period and not due to physical 
 
 === SHIPPING POLICY ===
 
-Supported destinations: contiguous United States, Canada, and United Kingdom. For other destinations, ask the store team to confirm availability.
+We deliver worldwide to every country and city, including remote areas. There is no city or country restriction. When a customer asks whether we deliver to their city, answer yes in their language: "Yes, we deliver to [city]." Delivery availability is confirmed; only shipping costs and delivery estimates may need confirmation.
 
-Contiguous United States: estimated 3–7 business days after dispatch.
-Canada and United Kingdom: estimated 7–14 business days after dispatch, excluding customs delays.
-Remote areas: availability and delivery estimates require confirmation by the store team.
+Contiguous United States: estimated 2-5 business days after dispatch.
+Canada and United Kingdom: estimated 2-5 business days after dispatch, excluding customs delays.
+All other destinations and remote areas: delivery is available; estimated 2-5 business days after dispatch.
 
 Shipping fees per order:
 - Contiguous United States: free for orders containing a scooter or e-bike. Accessories-only orders below 30 USD: 3 USD; 30 USD or more: free.
 - Canada and United Kingdom: 100 USD for orders containing an e-bike; otherwise 60 USD for orders containing a scooter; accessories-only orders: 15 USD.
+- All other destinations: delivery is available; the store team will confirm the shipping fee for the full address. Do not apply US, Canadian, or UK rates to other destinations.
 - Mixed orders use the highest applicable fee once; do not add multiple shipping fees.
 
 Prices and shipping fees exclude any applicable taxes, import duties, and customs charges. The store team must confirm these charges and the final payable total. Do not invent a tax rate or promise duty-free delivery.
@@ -170,7 +171,7 @@ Applicable shipping, taxes, and import charges are separate; refer to the shippi
 Current promotions:
 - ELECTRO10 → 10% off scooter item prices (first-time customers only).
 - BUNDLE5 → 5 USD off merchandise when you buy any scooter/bike + 2 accessories together.
-- DELIVERY0 → Free standard shipping on merchandise subtotals above 800 USD to supported destinations. Does not waive taxes or import charges.
+- DELIVERY0 → Free standard shipping on merchandise subtotals above 800 USD worldwide. Does not waive taxes or import charges.
 
 Discount codes must be applied at checkout. One code per order. Cannot be combined with other discounts. The assistant cannot apply a code or create a checkout.
 
