@@ -23,15 +23,16 @@ def search_knowledge_base(query: str) -> str:
 
 @tool
 def lookup_order(order_id: str) -> str:
-    """Look up order status by order ID (4-digit number)."""
+    """Look up a fictional demo order by its 4-digit ID. Clearly identify results as demo data, not real orders."""
+    # Fictional international demo orders; totals are merchandise only, excluding shipping/taxes.
     FAKE_ORDERS = {
         "1001": {
             "customer": "Fatima Zahra B.",
             "status": "Confirmed",
-            "items": "Trottinette Urban X7 (Black) x1",
-            "total": "3,200 MAD",
-            "payment": "COD",
-            "city": "Casablanca",
+            "items": "Scooter Urban X7 (Black) x1",
+            "total": "320 USD",
+            "payment": "Visa Card",
+            "city": "New York, NY, United States",
             "order_date": "2025-04-23",
             "carrier": "N/A",
             "eta": "Will be dispatched within 24 hrs",
@@ -40,10 +41,10 @@ def lookup_order(order_id: str) -> str:
         "1002": {
             "customer": "Younes A.",
             "status": "Processing",
-            "items": "Trottinette Rider Pro 500 (Grey) x1, Casque de Protection (L) x1",
-            "total": "5,050 MAD",
-            "payment": "COD",
-            "city": "Marrakech",
+            "items": "Scooter Rider Pro 500 (Grey) x1, Protective Helmet (L) x1",
+            "total": "505 USD",
+            "payment": "Visa Card",
+            "city": "London, United Kingdom",
             "order_date": "2025-04-22",
             "carrier": "N/A",
             "eta": "Ships within 24 hrs",
@@ -53,71 +54,71 @@ def lookup_order(order_id: str) -> str:
             "customer": "Nadia H.",
             "status": "Packed — Awaiting Pickup by Carrier",
             "items": "E-Bike City Comfort (Sand Beige) x1",
-            "total": "8,900 MAD",
-            "payment": "CMI Card",
-            "city": "Rabat",
+            "total": "890 USD",
+            "payment": "Mastercard",
+            "city": "Toronto, ON, Canada",
             "order_date": "2025-04-21",
-            "carrier": "Amana",
+            "carrier": "Demo carrier",
             "eta": "Estimated dispatch: today",
             "notes": "",
         },
         "1004": {
             "customer": "Omar K.",
             "status": "Shipped — In Transit",
-            "items": "Trottinette Kids Mini E100 (Blue) x1",
-            "total": "1,600 MAD",
-            "payment": "COD",
-            "city": "Fès",
+            "items": "Scooter Kids Mini E100 (Blue) x1",
+            "total": "160 USD",
+            "payment": "Visa Card",
+            "city": "Chicago, IL, United States",
             "order_date": "2025-04-19",
-            "carrier": "CTM",
+            "carrier": "Demo carrier",
             "eta": "2–3 business days",
             "notes": "Tracking SMS sent to customer's phone.",
         },
         "1005": {
             "customer": "Salma E.",
             "status": "Shipped — In Transit",
-            "items": "Chargeur de Rechange Universel x1, Sacoche de Rangement x1",
-            "total": "500 MAD",
+            "items": "Universal Replacement Charger x1, Scooter Storage Bag x1",
+            "total": "50 USD",
             "payment": "Visa Card",
-            "city": "Tanger",
+            "city": "Manchester, United Kingdom",
             "order_date": "2025-04-20",
-            "carrier": "Amana",
+            "carrier": "Demo carrier",
             "eta": "1–2 business days",
             "notes": "",
         },
         "1006": {
             "customer": "Hamza T.",
             "status": "Shipped — In Transit",
-            "items": "Trottinette Urban X7 (White) x1",
-            "total": "3,200 MAD",
-            "payment": "COD",
-            "city": "Agadir",
+            "items": "Scooter Urban X7 (White) x1",
+            "total": "320 USD",
+            "payment": "Visa Card",
+            "city": "Vancouver, BC, Canada",
             "order_date": "2025-04-18",
-            "carrier": "Aramex",
+            "carrier": "Demo carrier",
             "eta": "3–4 business days",
             "notes": "Remote city — slight delay possible.",
         },
         "1007": {
             "customer": "Zineb M.",
             "status": "Out for Delivery — Arriving Today",
-            "items": "Trottinette Kids Mini E100 (Pink) x1",
-            "total": "1,600 MAD",
-            "payment": "COD",
-            "city": "Kenitra",
+            "items": "Scooter Kids Mini E100 (Pink) x1",
+            "total": "160 USD",
+            "payment": "Visa Card",
+            "city": "Austin, TX, United States",
             "order_date": "2025-04-21",
-            "carrier": "CTM",
+            "carrier": "Demo carrier",
             "eta": "Today — delivery agent will call before arriving",
-            "notes": "Please have 1,600 MAD ready.",
+            "notes": "Prepaid demo order; no cash payment on delivery.",
         },
         "1008": {
             "customer": "Rachid L.",
             "status": "Delivered",
-            "items": "Trottinette Rider Pro 500 (Black) x1",
-            "total": "4,800 MAD",
-            "payment": "CMI Card",
-            "city": "Meknès",
+            "items": "Scooter Rider Pro 500 (Black) x1",
+            "total": "480 USD",
+            "payment": "Mastercard",
+            "city": "Birmingham, United Kingdom",
             "order_date": "2025-04-15",
-            "carrier": "Amana",
+            "carrier": "Demo carrier",
             "eta": "Delivered on Apr 18",
             "notes": "",
         },
@@ -125,83 +126,83 @@ def lookup_order(order_id: str) -> str:
             "customer": "Houda B.",
             "status": "Delivered",
             "items": "E-Bike Trail Sport (Black/Orange) x1",
-            "total": "11,500 MAD",
-            "payment": "Visa Card + 30% deposit",
-            "city": "Casablanca",
+            "total": "1,150 USD",
+            "payment": "Visa Card",
+            "city": "New York, NY, United States",
             "order_date": "2025-04-14",
-            "carrier": "CTM",
+            "carrier": "Demo carrier",
             "eta": "Delivered on Apr 17",
             "notes": "",
         },
         "1010": {
             "customer": "Karim O.",
             "status": "Failed Delivery — Customer Unreachable",
-            "items": "Trottinette Urban X7 (Black) x1",
-            "total": "3,200 MAD",
-            "payment": "COD",
-            "city": "Oujda",
+            "items": "Scooter Urban X7 (Black) x1",
+            "total": "320 USD",
+            "payment": "Visa Card",
+            "city": "Ottawa, ON, Canada",
             "order_date": "2025-04-17",
-            "carrier": "Amana",
-            "eta": "Redelivery can be requested — 50 MAD reshipping fee applies",
+            "carrier": "Demo carrier",
+            "eta": "Redelivery can be requested — contact the store team to confirm any fee",
             "notes": "Carrier attempted delivery twice. Please contact support to reschedule.",
         },
         "1011": {
             "customer": "Imane S.",
             "status": "Cancelled",
-            "items": "Casque de Protection (M) x1",
-            "total": "250 MAD",
-            "payment": "COD",
-            "city": "Salé",
+            "items": "Protective Helmet (M) x1",
+            "total": "25 USD",
+            "payment": "Visa Card",
+            "city": "Seattle, WA, United States",
             "order_date": "2025-04-16",
             "carrier": "N/A",
             "eta": "N/A",
-            "notes": "Cancelled by customer within the 1-hour window. No charge.",
+            "notes": "Cancelled by customer within the demo 1-hour window. Payment refunded.",
         },
         "1012": {
             "customer": "Meryem F.",
             "status": "Return Requested — Awaiting Pickup",
-            "items": "Trottinette Kids Mini E100 (Black) x1",
-            "total": "1,600 MAD",
-            "payment": "COD",
-            "city": "Tétouan",
+            "items": "Scooter Kids Mini E100 (Black) x1",
+            "total": "160 USD",
+            "payment": "Visa Card",
+            "city": "Boston, MA, United States",
             "order_date": "2025-04-10",
-            "carrier": "CTM",
+            "carrier": "Demo carrier",
             "eta": "Return pickup scheduled — we will contact you to confirm the date",
             "notes": "Reason: too advanced for a first-time young rider, wants the lower speed cap version.",
         },
         "1013": {
             "customer": "Yassine N.",
             "status": "Return In Transit — Received by Carrier",
-            "items": "Trottinette Urban X7 (White) x1",
-            "total": "3,200 MAD",
+            "items": "Scooter Urban X7 (White) x1",
+            "total": "320 USD",
             "payment": "Visa Card",
-            "city": "Marrakech",
+            "city": "London, United Kingdom",
             "order_date": "2025-04-08",
-            "carrier": "Amana",
+            "carrier": "Demo carrier",
             "eta": "Refund will be processed within 5–7 business days of inspection",
             "notes": "Reason: unused, customer changed mind, within 7-day return window.",
         },
         "1014": {
             "customer": "Loubna A.",
             "status": "Refunded",
-            "items": "Antivol U-Lock Renforcé x1",
-            "total": "220 MAD",
-            "payment": "CMI Card",
-            "city": "Casablanca",
+            "items": "Reinforced U-Lock x1",
+            "total": "22 USD",
+            "payment": "Mastercard",
+            "city": "New York, NY, United States",
             "order_date": "2025-04-01",
-            "carrier": "CTM",
-            "eta": "Refund of 220 MAD issued on Apr 10",
-            "notes": "Refund sent to original CMI card. May take 3–5 bank days to appear.",
+            "carrier": "Demo carrier",
+            "eta": "Refund of 22 USD issued on Apr 10",
+            "notes": "Refund sent to original Mastercard. May take 3–5 bank days to appear.",
         },
         "1015": {
             "customer": "Tariq B.",
             "status": "Delivered — Issue Reported",
-            "items": "Trottinette Rider Pro 500 (Red) x1  ← ordered | Received: Rider Pro 500 (Grey)",
-            "total": "4,800 MAD",
-            "payment": "COD",
-            "city": "Fès",
+            "items": "Scooter Rider Pro 500 (Red) x1  ← ordered | Received: Rider Pro 500 (Grey)",
+            "total": "480 USD",
+            "payment": "Visa Card",
+            "city": "Chicago, IL, United States",
             "order_date": "2025-04-19",
-            "carrier": "Amana",
+            "carrier": "Demo carrier",
             "eta": "Replacement dispatched — arriving in 2–3 business days",
             "notes": "Wrong color sent by warehouse. Replacement confirmed at no cost.",
         },
@@ -211,15 +212,15 @@ def lookup_order(order_id: str) -> str:
             "items": (
                 "E-Bike Cargo Delivery Pro (Black) x1, "
                 "spare battery pack x1, "
-                "Casque de Protection (L) x1"
+                "Protective Helmet (L) x1"
             ),
-            "total": "15,950 MAD",
+            "total": "1,595 USD",
             "payment": "Bank transfer",
-            "city": "Casablanca",
+            "city": "New York, NY, United States",
             "order_date": "2025-04-20",
-            "carrier": "DHL",
+            "carrier": "Demo carrier",
             "eta": "1–2 business days (priority shipping)",
-            "notes": "COD not available above 5,000 MAD — 30% deposit paid, rest by transfer.",
+            "notes": "Demo order paid in full by bank transfer; cash on delivery is not available.",
         }
     }
     try:
@@ -227,10 +228,10 @@ def lookup_order(order_id: str) -> str:
         if not order:
             return f"No order found with ID '{order_id}'. Please double-check the ID and try again."
         return (
-            f"📦 Order #{order_id}\n"
+            f"📦 Demo order #{order_id} (fictional sample)\n"
             f"Status: {order['status']}\n"
             f"Items: {order['items']}\n"
-            f"Total: {order['total']}\n"
+            f"Merchandise subtotal: {order['total']} (shipping/taxes excluded)\n"
             f"City: {order['city']}\n"
             f"ETA: {order['eta']}"
         )
@@ -252,7 +253,7 @@ def lookup_order(order_id: str) -> str:
 #     Args:
 #         reason: brief description of why escalation is needed (e.g. 'customer requested human', 'very angry about wrong item').
 #         user_phone: the customer's WhatsApp number already in conversation context — never ask for it.
-#         language: the language the customer is using. Must be exactly one of: english, french, arabic, darija
+#         language: the customer's language or dialect; any language is supported.
 #     """
 #     owner_number = os.getenv("OWNER_PHONE")
 #     token = os.getenv("WHATSAPP_TOKEN")
@@ -264,7 +265,7 @@ def lookup_order(order_id: str) -> str:
 #         "type": "template",
 #         "template": {
 #             "name": "escalation_request",
-#             "language": {"code": "ar"},
+#             "language": {"code": "en"},
 #             "components": [
 #                 {
 #                     "type": "body",
@@ -309,11 +310,11 @@ def escalate_to_human(reason: str, language: str, user_phone: str) -> str:
     Use ONLY when user explicitly asks for a human agent, or is extremely angry.
 
     Args:
-        reason: brief description of why escalation is needed (e.g. 'customer requested human', 'very angry about wrong item').
+        reason: brief description in English of why escalation is needed (e.g. 'customer requested human', 'very angry about wrong item').
         user_phone: the customer's WhatsApp number already in conversation context — never ask for it.
-        language: the language the customer is using. Must be exactly one of: english, french, arabic, darija
+        language: the customer's language or dialect; any language is supported.
 
-    for the message that will be sent to users , it should be like this , with this format : 
+    The owner notification uses English labels with this format:
     
     reason : [reason of escalation]
     language : [language of the user]
@@ -323,7 +324,7 @@ def escalate_to_human(reason: str, language: str, user_phone: str) -> str:
     token = os.getenv("WHATSAPP_TOKEN")
     phone_id = os.getenv("PHONE_NUMBER_ID")
 
-    message=f" Human Agent needed . {reason}\n  {language} \n  {user_phone}"
+    message = f"Human support requested\nReason: {reason}\nLanguage: {language}\nCustomer phone: {user_phone}"
 
 
     payload = {
@@ -388,7 +389,7 @@ def escalate_to_human(reason: str, language: str, user_phone: str) -> str:
 #         size: size if applicable (accessories like helmets), empty string if not applicable
 #         quantity: quantity ordered
 #         address: full delivery address including city
-#         payment: "COD" or payment method used
+#         payment: accepted payment method from the knowledge base
 #     """
 #     owner_number = os.getenv("OWNER_PHONE")
 #     token = os.getenv("WHATSAPP_TOKEN")
@@ -400,7 +401,7 @@ def escalate_to_human(reason: str, language: str, user_phone: str) -> str:
 #         "type": "template",
 #         "template": {
 #             "name": "new_order_notification",
-#             "language": {"code": "ar"},
+#             "language": {"code": "en"},
 #             "components": [
 #                 {
 #                     "type": "body",
@@ -459,27 +460,28 @@ def notify_owner(order_summary: str) -> str:
     Call this tool ONLY after ALL three conditions are met:
     1. All order details are collected: name, product, color, size, quantity, address, city, payment method.
     2. The full order summary was shown to the customer .
-    3. The customer explicitly confirmed with yes / iyeh / oui / nam.
+    3. The customer explicitly confirmed the order in their own language or dialect.
 
     Customer phone is already in the conversation context — extract it automatically.
     NEVER ask the customer for their phone number.
 
-    Format order_summary EXACTLY like this:
-    الاسم: [name]
-    الهاتف: [customer phone from context]
-    المنتج: [product name]
-    اللون: [color]
-    المقاس: [size]
-    الكمية: [quantity]
-    العنوان: [full address + city]
-    الدفع: [COD or card]
+    Format order_summary with English labels like this, preserving customer details:
+    Customer: [name]
+    Phone: [customer phone from context, including country code]
+    Product: [product name]
+    Color: [color]
+    Size: [size, if applicable]
+    Quantity: [quantity]
+    Address: [full address, city, state/region if applicable, postal code if applicable, country]
+    Payment: [payment method from the knowledge base]
+    Total: [confirmed total and catalog currency; do not invent fees or convert currencies]
     
     """
     owner_number = os.getenv("OWNER_PHONE")
     token = os.getenv("WHATSAPP_TOKEN")
     phone_id = os.getenv("PHONE_NUMBER_ID")
 
-    message = f"🛒 *طلب جديد*\n\n{order_summary}\n\n_تم جمع الطلب بواسطة RELIA — يرجى تأكيده مع العميل._"
+    message = f"🛒 *New order*\n\n{order_summary}\n\n_Order collected by RELIA — please confirm with the customer._"
 
     try:
         resp = requests.post(
@@ -525,5 +527,5 @@ ALL_TOOLS = [search_knowledge_base, lookup_order, escalate_to_human, notify_owne
     # Color: [color]
     # Size: [size]
     # Quantity: [quantity]
-    # Address: [full address + city]
-    # Payment: [COD or card]
+    # Address: [full address, city, postal code, country]
+    # Payment: [accepted payment method from the knowledge base]
