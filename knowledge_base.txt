@@ -1,18 +1,14 @@
 === ABOUT THE STORE ===
 
-ElectroMA is a demo store specializing in electric scooters and electric bikes.
+ElectroMA is a store specializing in electric scooters and electric bikes.
 We serve commuters, students, and delivery riders looking for electric mobility.
 
-DEMO DATA ONLY: This catalog, its USD prices, destinations, payment methods, promotions, and store policies are fictional examples for international client demonstrations. They are not live offers or verified business terms. Describe them as demo terms when answering customers. Replace them with each client's approved details before production use. USD amounts are chosen sample prices, not current exchange-rate conversions.
-
 Store Name: ElectroMA
-Website: https://example.com (demo placeholder)
-Physical address and showroom: not configured for this demo.
-Sample support hours: Monday–Saturday, 09:30–19:00 UTC; closed Sundays.
+Website: contact the store team for the website address.
+Physical address and showroom: contact the store team for details.
+Support hours: Monday–Saturday, 09:30–19:00 UTC; closed Sundays.
 
 === ELECTRIC SCOOTERS ===
-
-Fictional demo catalog information only; not a live store offer.
 
 Scooter Urban X7
 - Description: Entry-level daily commuter scooter. Lightweight, foldable in 3 seconds.
@@ -62,8 +58,6 @@ Scooter Kids Mini E100
 
 === ELECTRIC BIKES ===
 
-Fictional demo catalog information only; not a live store offer.
-
 E-Bike City Comfort
 - Description: Step-through frame electric bike for everyday city riding. Comfortable upright riding position.
 - Motor: 250W rear hub
@@ -99,8 +93,6 @@ E-Bike Cargo Delivery Pro
 
 === ACCESSORIES ===
 
-Fictional demo catalog information only; not a live store offer.
-
 Unisex Protective Helmet — 25 USD (S/M/L, Black/White/Grey)
 Universal Replacement Charger — 35 USD (compatible with all ElectroMA scooter models — confirm model when ordering)
 Reinforced U-Lock — 22 USD
@@ -109,8 +101,6 @@ Waterproof Rain Cover — 13 USD
 Replacement Battery (model-specific) — price varies by model, ask us via WhatsApp with your model name
 
 === BATTERY, RANGE & CHARGING FAQ ===
-
-Fictional demo catalog information only; not a live store offer.
 
 Q: How long does the battery last (lifespan, not per-charge)?
 A: All batteries are rated for 500–800 full charge cycles (roughly 2–3 years of normal daily use) before noticeable capacity loss.
@@ -129,33 +119,30 @@ A: Covered under warranty if within the warranty period and not due to physical 
 
 === SHIPPING POLICY ===
 
-Demo shipping terms only — not a live delivery offer.
-Supported demo destinations: contiguous United States, Canada, and United Kingdom. Other destinations are not configured; ask the store team to confirm availability.
+Supported destinations: contiguous United States, Canada, and United Kingdom. For other destinations, ask the store team to confirm availability.
 
 Contiguous United States: estimated 3–7 business days after dispatch.
 Canada and United Kingdom: estimated 7–14 business days after dispatch, excluding customs delays.
 Remote areas: availability and delivery estimates require confirmation by the store team.
 
-Demo shipping fees per order:
+Shipping fees per order:
 - Contiguous United States: free for orders containing a scooter or e-bike. Accessories-only orders below 30 USD: 3 USD; 30 USD or more: free.
 - Canada and United Kingdom: 100 USD for orders containing an e-bike; otherwise 60 USD for orders containing a scooter; accessories-only orders: 15 USD.
 - Mixed orders use the highest applicable fee once; do not add multiple shipping fees.
 
-Prices and shipping fees exclude any applicable taxes, import duties, and customs charges. These amounts are not configured in this demo; the store team must confirm the final payable total. Do not invent a tax rate or promise duty-free delivery.
+Prices and shipping fees exclude any applicable taxes, import duties, and customs charges. The store team must confirm these charges and the final payable total. Do not invent a tax rate or promise duty-free delivery.
 Collect the full address, city, state/province/region where applicable, postal code, and country.
-A tracking link is provided after dispatch in this demo scenario.
+A tracking link is provided after dispatch.
 Scooters and e-bikes ship in reinforced boxes — inspect the box on delivery before signing.
 
 === CASH ON DELIVERY (COD) ===
 
-Cash on delivery is not offered in this international demo.
-Demo orders use full payment by an accepted payment method; there is no deposit threshold.
+Cash on delivery is not offered.
+Orders use full payment by an accepted payment method; there is no deposit threshold.
 The assistant collects order details and sends them to the owner. It cannot charge a card, collect card details, verify a payment, or generate a payment link. The store team handles payment instructions and confirmation.
 If delivery fails, contact the store team to arrange redelivery. Any additional shipping fee must be confirmed before payment.
 
 === RETURNS & WARRANTY ===
-
-Demo store policy only; actual return terms must be supplied by each client for their market.
 
 Returns accepted within 7 days of delivery if unused, in original packaging, with no signs of riding (battery must show zero or near-zero usage cycles).
 Once a scooter/e-bike has been ridden, it is no longer eligible for a full return — only warranty repair applies.
@@ -168,31 +155,29 @@ Minor repairs (tires, brakes, cables) can often be handled by any local bike/sco
 
 === PAYMENT METHODS ===
 
-Demo accepted methods:
+Accepted payment methods:
 - Visa / Mastercard
 - PayPal
 - Bank transfer
 
-These are sample store payment options, not payment integrations provided by the assistant.
-Cash on delivery, installment payments, and cryptocurrency are not offered in this demo.
-All catalog prices are in US dollars (USD). The USD currency applies to every demo destination; no currency conversion is provided.
+The store team handles payment processing; the assistant cannot process payments.
+Cash on delivery, installment payments, and cryptocurrency are not offered.
+All catalog prices are in US dollars (USD). The USD currency applies to every supported destination; no currency conversion is provided.
 Applicable shipping, taxes, and import charges are separate; refer to the shipping policy and have the store team confirm any unknown charges before payment.
 
 === PROMOTIONS ===
 
-Sample demo promotions:
+Current promotions:
 - ELECTRO10 → 10% off scooter item prices (first-time customers only).
 - BUNDLE5 → 5 USD off merchandise when you buy any scooter/bike + 2 accessories together.
-- DELIVERY0 → Free standard shipping on merchandise subtotals above 800 USD to supported demo destinations. Does not waive taxes or import charges.
+- DELIVERY0 → Free standard shipping on merchandise subtotals above 800 USD to supported destinations. Does not waive taxes or import charges.
 
-Discount codes must be applied at checkout. One code per order. Cannot be combined with other discounts. These are demo checkout rules; the assistant cannot apply a code or create a checkout.
+Discount codes must be applied at checkout. One code per order. Cannot be combined with other discounts. The assistant cannot apply a code or create a checkout.
 
 === FREQUENTLY ASKED QUESTIONS ===
 
-Fictional demo catalog information only; not a live store offer.
-
 Q: Do I need a license to ride an electric scooter/bike?
-A: This demo does not provide jurisdiction-specific road-use rules. Check the relevant local transport authority for license, registration, helmet, age, and permitted-use requirements for your location and model.
+A: Check the relevant local transport authority for license, registration, helmet, age, and permitted-use requirements for your location and model.
 
 Q: Does it come assembled?
 A: Scooters arrive mostly assembled — just unfold and charge. E-bikes require basic assembly (handlebars, pedals, front wheel) — instructions included, takes about 15-20 minutes. We can recommend a local shop if you'd prefer professional assembly.
@@ -204,18 +189,18 @@ Q: Which model is best for delivery work?
 A: MaxSpeed 8 Off-Road (scooter) or Cargo Delivery Pro (e-bike) — built for higher daily mileage and heavier loads.
 
 Q: Can I test ride before buying?
-A: Test rides and showroom locations are not configured in this demo. Contact the store team to confirm availability.
+A: Contact the store team to confirm test ride availability and showroom locations.
 
 Q: Do you offer installment payments?
-A: Installment payments are not offered in this demo.
+A: Installment payments are not offered.
 
 === CONTACT & SUPPORT ===
 
-Demo contact placeholders — replace with each client's real details:
-WhatsApp: use the connected store conversation; no public support number is configured.
-Email: support@example.com (placeholder, not a monitored support address)
-Website: https://example.com (placeholder)
+Contact the store team through the connected WhatsApp conversation.
+WhatsApp: use the connected store conversation.
+Email: contact the store team for the support email address.
+Website: contact the store team for the website address.
 
-Sample support hours: Monday–Saturday, 09:30–19:00 UTC. Closed Sundays.
-Human response times are not configured; do not promise a specific response deadline.
+Support hours: Monday–Saturday, 09:30–19:00 UTC. Closed Sundays.
+Human response times vary; do not promise a specific response deadline.
 For urgent issues (defective unit, damaged in transit), contact the store team with your order details.

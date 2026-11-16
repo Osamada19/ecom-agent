@@ -23,7 +23,7 @@ def search_knowledge_base(query: str) -> str:
 
 @tool
 def lookup_order(order_id: str) -> str:
-    """Look up a fictional demo order by its 4-digit ID. Clearly identify results as demo data, not real orders."""
+    """Look up order status by its 4-digit order ID."""
     # Fictional international demo orders; totals are merchandise only, excluding shipping/taxes.
     FAKE_ORDERS = {
         "1001": {
@@ -58,7 +58,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Mastercard",
             "city": "Toronto, ON, Canada",
             "order_date": "2025-04-21",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "Estimated dispatch: today",
             "notes": "",
         },
@@ -70,7 +70,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Visa Card",
             "city": "Chicago, IL, United States",
             "order_date": "2025-04-19",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "2–3 business days",
             "notes": "Tracking SMS sent to customer's phone.",
         },
@@ -82,7 +82,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Visa Card",
             "city": "Manchester, United Kingdom",
             "order_date": "2025-04-20",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "1–2 business days",
             "notes": "",
         },
@@ -94,7 +94,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Visa Card",
             "city": "Vancouver, BC, Canada",
             "order_date": "2025-04-18",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "3–4 business days",
             "notes": "Remote city — slight delay possible.",
         },
@@ -106,9 +106,9 @@ def lookup_order(order_id: str) -> str:
             "payment": "Visa Card",
             "city": "Austin, TX, United States",
             "order_date": "2025-04-21",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "Today — delivery agent will call before arriving",
-            "notes": "Prepaid demo order; no cash payment on delivery.",
+            "notes": "Prepaid order; no cash payment on delivery.",
         },
         "1008": {
             "customer": "Rachid L.",
@@ -118,7 +118,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Mastercard",
             "city": "Birmingham, United Kingdom",
             "order_date": "2025-04-15",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "Delivered on Apr 18",
             "notes": "",
         },
@@ -130,7 +130,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Visa Card",
             "city": "New York, NY, United States",
             "order_date": "2025-04-14",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "Delivered on Apr 17",
             "notes": "",
         },
@@ -142,7 +142,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Visa Card",
             "city": "Ottawa, ON, Canada",
             "order_date": "2025-04-17",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "Redelivery can be requested — contact the store team to confirm any fee",
             "notes": "Carrier attempted delivery twice. Please contact support to reschedule.",
         },
@@ -156,7 +156,7 @@ def lookup_order(order_id: str) -> str:
             "order_date": "2025-04-16",
             "carrier": "N/A",
             "eta": "N/A",
-            "notes": "Cancelled by customer within the demo 1-hour window. Payment refunded.",
+            "notes": "Cancelled by customer within the 1-hour window. Payment refunded.",
         },
         "1012": {
             "customer": "Meryem F.",
@@ -166,7 +166,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Visa Card",
             "city": "Boston, MA, United States",
             "order_date": "2025-04-10",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "Return pickup scheduled — we will contact you to confirm the date",
             "notes": "Reason: too advanced for a first-time young rider, wants the lower speed cap version.",
         },
@@ -178,7 +178,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Visa Card",
             "city": "London, United Kingdom",
             "order_date": "2025-04-08",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "Refund will be processed within 5–7 business days of inspection",
             "notes": "Reason: unused, customer changed mind, within 7-day return window.",
         },
@@ -190,7 +190,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Mastercard",
             "city": "New York, NY, United States",
             "order_date": "2025-04-01",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "Refund of 22 USD issued on Apr 10",
             "notes": "Refund sent to original Mastercard. May take 3–5 bank days to appear.",
         },
@@ -202,7 +202,7 @@ def lookup_order(order_id: str) -> str:
             "payment": "Visa Card",
             "city": "Chicago, IL, United States",
             "order_date": "2025-04-19",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "Replacement dispatched — arriving in 2–3 business days",
             "notes": "Wrong color sent by warehouse. Replacement confirmed at no cost.",
         },
@@ -218,9 +218,9 @@ def lookup_order(order_id: str) -> str:
             "payment": "Bank transfer",
             "city": "New York, NY, United States",
             "order_date": "2025-04-20",
-            "carrier": "Demo carrier",
+            "carrier": "Shipping partner",
             "eta": "1–2 business days (priority shipping)",
-            "notes": "Demo order paid in full by bank transfer; cash on delivery is not available.",
+            "notes": "Order paid in full by bank transfer; cash on delivery is not available.",
         }
     }
     try:
@@ -228,7 +228,7 @@ def lookup_order(order_id: str) -> str:
         if not order:
             return f"No order found with ID '{order_id}'. Please double-check the ID and try again."
         return (
-            f"📦 Demo order #{order_id} (fictional sample)\n"
+            f"📦 Order #{order_id}\n"
             f"Status: {order['status']}\n"
             f"Items: {order['items']}\n"
             f"Merchandise subtotal: {order['total']} (shipping/taxes excluded)\n"
