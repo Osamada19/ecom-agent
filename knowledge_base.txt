@@ -119,12 +119,7 @@ A: Covered under warranty if within the warranty period and not due to physical 
 
 === SHIPPING POLICY ===
 
-We deliver worldwide to every country and city, including remote areas. There is no city or country restriction. When a customer asks whether we deliver to their city, answer yes in their language: "Yes, we deliver to [city]." Delivery availability is confirmed; only shipping costs and delivery estimates may need confirmation.
-
-Contiguous United States: estimated 2-5 business days after dispatch.
-Canada and United Kingdom: estimated 2-5 business days after dispatch, excluding customs delays.
-All other destinations and remote areas: delivery is available; estimated 2-5 business days after dispatch.
-
+deliver only to spain cities
 Shipping fees per order:
 - Contiguous United States: free for orders containing a scooter or e-bike. Accessories-only orders below 30 USD: 3 USD; 30 USD or more: free.
 - Canada and United Kingdom: 100 USD for orders containing an e-bike; otherwise 60 USD for orders containing a scooter; accessories-only orders: 15 USD.
