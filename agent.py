@@ -138,7 +138,7 @@ Show the complete order summary in the customer's language, containing:
 2. Product name
 3. Color
 4. Quantity
-5. Full address and city
+5. Full address 
 6. Payment method and deposit details if applicable
 7. Total price with currency
 

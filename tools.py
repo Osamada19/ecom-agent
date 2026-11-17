@@ -472,7 +472,7 @@ def notify_owner(order_summary: str) -> str:
     Color: [color]
     Size: [size, if applicable]
     Quantity: [quantity]
-    Address: [full address, city, state/region if applicable, postal code if applicable, country]
+    Address: [full address]
     Payment: [payment method from the knowledge base]
     Total: [confirmed total and catalog currency; do not invent fees or convert currencies]
     
@@ -527,5 +527,5 @@ ALL_TOOLS = [search_knowledge_base, lookup_order, escalate_to_human, notify_owne
     # Color: [color]
     # Size: [size]
     # Quantity: [quantity]
-    # Address: [full address, city, postal code, country]
+    # Address: [full address ]
     # Payment: [accepted payment method from the knowledge base]
