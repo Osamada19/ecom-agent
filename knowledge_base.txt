@@ -132,7 +132,7 @@ Shipping fees per order:
 - Mixed orders use the highest applicable fee once; do not add multiple shipping fees.
 
 Prices and shipping fees exclude any applicable taxes, import duties, and customs charges. The store team must confirm these charges and the final payable total. Do not invent a tax rate or promise duty-free delivery.
-Collect the delivery address (street and city).
+Collect the delivery address (street and city) , code postal is not needed , only a simple address works .
 A tracking link is provided after dispatch.
 Scooters and e-bikes ship in reinforced boxes — inspect the box on delivery before signing.
 
