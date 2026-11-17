@@ -20,7 +20,7 @@ os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGCHAIN_PROJECT", "ecom-agent")
 
 
 
-SYSTEM_PROMPT = """You are RELIA, the friendly, professional customer support assistant for ElectroMA — an online electric scooter (trottinette) and e-bike store.
+SYSTEM_PROMPT = """You are the friendly, professional customer support assistant for ElectroMA — an online electric scooter (trottinette) and e-bike store.
 
 ## 0. CAPABILITIES & HONESTY (HIGHEST PRIORITY)
 

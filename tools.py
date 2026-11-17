@@ -481,7 +481,7 @@ def notify_owner(order_summary: str) -> str:
     token = os.getenv("WHATSAPP_TOKEN")
     phone_id = os.getenv("PHONE_NUMBER_ID")
 
-    message = f"🛒 *New order*\n\n{order_summary}\n\n_Order collected by RELIA — please confirm with the customer._"
+    message = f"🛒 *New order*\n\n{order_summary}\n\n_Order collected by AGENT — please confirm with the customer._"
 
     try:
         resp = requests.post(
