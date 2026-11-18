@@ -111,6 +111,7 @@ def get_threads():
             "last_at": "",
             "last_id": 0,
             "unread_count": 0,
+            "last_customer_at": None,
         })
         # Rows arrive oldest first, so each row overwrites the last
         # message. At the end, the last message is the newest one.
@@ -118,6 +119,8 @@ def get_threads():
         thread["last_direction"] = row["direction"]
         thread["last_at"] = row["created_at"]
         thread["last_id"] = row["id"]
+        if row["direction"] == "customer":
+            thread["last_customer_at"] = row["created_at"]
         if row["direction"] == "customer" and row["seen"] == 0:
             thread["unread_count"] += 1
 
