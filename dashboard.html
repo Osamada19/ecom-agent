@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Conversations · RELIAagent</title>
+<title>Chats</title>
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; font-family: Arial, sans-serif; background: #f0f2f5; color: #111; }
@@ -47,54 +47,59 @@
     .app.show-chat .main { display: flex; }
     .back-btn { display: inline-block; }
   }
-  :root { --ink:#193c35; --muted:#657b74; --line:#dfe8e2; --accent:#176e57; }
-  body { background:#f4f7f4; color:var(--ink); font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; }
-  button,input { font:inherit; } button:focus-visible,input:focus-visible { outline:3px solid #63aa90; outline-offset:2px; }
-  .shell { max-width:1480px; margin:auto; padding:24px 32px 12px; }
-  .brandbar { display:flex; justify-content:space-between; align-items:center; padding-bottom:20px; border-bottom:1px solid var(--line); }
-  .brand { font-size:19px; font-weight:750; letter-spacing:-.6px; display:flex; align-items:center; gap:10px; }
-  .brand-mark { display:grid; place-items:center; background:var(--ink); color:#c7edce; width:32px; height:32px; border-radius:10px; }
-  .owner { font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
-  .page-title { margin:24px 0 20px; } h1 { font-size:30px; letter-spacing:-1px; margin:0 0 6px; font-weight:650; } .page-title p { font-size:14px; color:var(--muted); margin:0; }
-  .stats { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:22px; }
-  .stat { background:white; border:1px solid var(--line); border-radius:16px; padding:18px 22px; position:relative; }
-  .stat:first-child { background:var(--ink); color:white; border-color:var(--ink); }
-  .stat-label { font-size:13px; font-weight:600; } .stat-number { display:block; font-size:36px; font-weight:650; letter-spacing:-1.5px; margin:5px 0; }
-  .stat-note { font-size:12px; color:var(--muted); } .stat:first-child .stat-note { color:#bed1c6; }
-  .stat-symbol { position:absolute; right:22px; top:22px; background:#edf4ee; color:var(--accent); border-radius:12px; padding:10px; font-size:20px; } .stat:first-child .stat-symbol { background:#305349; color:#c7edce; }
-  .app { height:calc(100dvh - 350px); min-height:370px; border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 8px 30px #193c3505; }
-  .sidebar { border-color:var(--line); width:340px; }
-  .side-head { background:white; padding:20px 18px 14px; font-size:15px; }
-  .side-head button,.copy-btn,.back-btn { border:1px solid var(--line); border-radius:8px; padding:8px 11px; color:var(--ink); font-size:12px; }
-  .search-wrap { padding:0 16px; } .search { width:100%; border:1px solid var(--line); border-radius:9px; padding:10px 12px; background:#f8faf8; color:var(--ink); font-size:12px; }
-  .filters { display:flex; gap:8px; padding:12px 16px; border-bottom:1px solid var(--line); } .filter { border:0; border-radius:7px; background:transparent; color:var(--muted); padding:6px 12px; font-size:12px; cursor:pointer; } .filter[aria-pressed="true"] { background:#e8f2eb; color:var(--accent); font-weight:650; }
-  .thread-list { padding:6px; } .thread { padding:16px 12px; border:0; border-left:3px solid transparent; border-radius:10px; margin-bottom:3px; color:var(--ink); } .thread:hover { background:#f4f7f3; } .thread.unread { background:#f3f8f3; } .thread.active { background:#e7f1e8; border-left-color:var(--accent); }
-  .phone-mask { font-size:14px; font-weight:650; } .snippet { font-size:12px; } .row-bottom { margin-top:7px; } .time { font-size:11px; } .badge { background:var(--accent); border-radius:6px; font-size:10px; }
-  .main { background:#f7f9f6; } .main-head { background:white; padding:18px 22px; min-height:76px; border-color:var(--line); } .full-phone { flex:1; overflow-wrap:anywhere; } .main-head .full-phone { font-size:15px; }
-  .messages { padding:24px 30px; gap:12px; } .date-sep { background:#edf1eb; color:var(--muted); font-size:11px; border-radius:20px; margin:6px 0; }
-  .bubble { padding:12px 15px; max-width:78%; border:1px solid var(--line); border-radius:14px; font-size:14px; line-height:1.65; box-shadow:none; white-space:normal; }
-  .message-text { white-space:pre-wrap; } .sender { display:block; font-size:10px; color:var(--accent); font-weight:700; margin-bottom:4px; }
-  .bubble.customer { border-bottom-left-radius:4px; } .bubble.agent { background:#e4f0e5; border-color:#d6e6d6; border-bottom-right-radius:4px; } .bubble .msg-time { font-size:10px; }
-  .empty { font-size:13px; line-height:1.8; color:var(--muted); } .empty strong { display:block; color:var(--ink); font-size:18px; font-weight:600; margin-bottom:5px; }
-  .pane-footer { text-align:center; background:white; border-top:1px solid var(--line); padding:10px; font-size:11px; color:var(--muted); }
-  .status { font-size:11px; color:var(--muted); padding:12px 2px 0; min-height:26px; } .status.error { color:#a23c27; }
-  @media(max-width:900px) { .shell { padding:20px; } .sidebar { width:300px; } }
-  @media(max-width:700px) { .shell { padding:16px 12px; } .brandbar { padding-bottom:16px; } .owner { font-size:9px; } .page-title { margin:18px 0; } h1 { font-size:26px; } .page-title p { font-size:12px; } .stats { gap:10px; margin-bottom:16px; } .stat { padding:15px; } .stat-number { font-size:30px; } .stat-note { font-size:10px; } .stat-symbol { display:none; } .app { height:calc(100dvh - 330px); min-height:360px; border-radius:14px; } .sidebar { width:100%; min-width:0; } .messages { padding:16px 12px; } .bubble { max-width:90%; } .main-head { padding:12px; gap:8px; } }
+
+  :root { --ink:#0c1c22; --muted:#5e7178; --line:#dce7e5; --accent:#0f766e; }
+  body { color:var(--ink); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; background:linear-gradient(125deg,#122874 0%,#1e40af 30%,#2563eb 58%,#60a5fa 82%,#93c5fd 100%); padding:12px; height:100vh; height:100dvh; overflow:hidden; }
+  button { font:inherit; color:inherit; } button:focus-visible { outline:3px solid #2563eb; outline-offset:-3px; }
+  .app { height:100%; border:1px solid #ffffff80; border-radius:16px; overflow:hidden; box-shadow:0 16px 50px #091a2226; }
+  .sidebar { width:340px; min-width:280px; border-color:var(--line); }
+  .side-head { background:#fff; padding:15px 18px 10px; font-size:18px; font-weight:700; letter-spacing:-.5px; }
+  .side-head>span { display:flex; align-items:center; gap:9px; }
+  .side-head>span::before { content:''; width:8px; height:8px; border-radius:50%; background:#10b981; box-shadow:0 0 0 4px #10b98112; }
+  .side-head button,.copy-btn,.back-btn { font-size:12px; font-weight:500; letter-spacing:0; border:1px solid var(--line); border-radius:8px; background:#fff; padding:7px 11px; transition:background .15s; }
+  .side-head button:hover,.copy-btn:hover,.back-btn:hover { background:#f0f5f3; }
+  .counts { display:flex; align-items:center; gap:8px; padding:0 18px 13px; border-bottom:1px solid var(--line); color:var(--muted); font-size:11px; white-space:nowrap; }
+  .counts strong { color:var(--accent); font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+  .counts .divider { color:#c4d7d3; }
+  .thread-list { padding:6px; scrollbar-width:thin; scrollbar-color:#c4d7d3 transparent; }
+  .thread { padding:14px 12px; border:0; border-left:3px solid transparent; border-radius:10px; margin-bottom:3px; transition:background .15s; }
+  .thread:hover { background:#f0f5f3; }
+  .thread.unread { background:#effaf5; } .thread.unread .snippet { color:#213740; }
+  .thread.active { background:#e5f3f0; border-left-color:var(--accent); }
+  .phone-mask { font-size:14px; font-weight:650; letter-spacing:.15px; }
+  .time { font-size:11px; color:var(--muted); } .row-bottom { margin-top:6px; }
+  .snippet { font-size:13px; color:var(--muted); }
+  .badge { background:linear-gradient(135deg,#0d9488,#059669); font-size:10px; min-width:19px; height:19px; font-weight:650; }
+  .main { background:#f0f5f3; }
+  .main-head { background:#fff; padding:15px 22px; min-height:65px; border-color:var(--line); }
+  .main-head .full-phone { font-size:15px; font-weight:650; overflow-wrap:anywhere; min-width:0; }
+  .copy-btn { margin-left:auto; white-space:nowrap; }
+  .messages { padding:24px; gap:10px; scrollbar-width:thin; scrollbar-color:#c4d7d3 transparent; }
+  .date-sep { background:#e4ece9; color:#52676e; border-radius:20px; font-size:11px; padding:5px 12px; margin:5px 0; }
+  .bubble { padding:10px 14px; border-radius:14px; font-size:14px; line-height:1.6; box-shadow:0 2px 5px #0c1c2205; border:1px solid #dfe9e5; }
+  .bubble.customer { background:#fff; border-bottom-left-radius:4px; }
+  .bubble.agent { background:#def3e9; border-color:#cce9dd; border-bottom-right-radius:4px; }
+  .bubble.system { background:#fff7e3; border-color:#eee3c7; }
+  .bubble .msg-time { color:var(--muted); font-size:10px; }
+  .empty { color:var(--muted); font-size:13px; line-height:1.7; }
+  @media(max-width:700px) {
+    body { padding:0; } .app { border:0; border-radius:0; }
+    .sidebar { width:100%; min-width:0; }
+    .side-head { padding-top:16px; } .counts { font-size:12px; }
+    .main-head { padding:12px; gap:10px; min-height:60px; border-top:3px solid #2563eb; }
+    .messages { padding:16px 12px; } .bubble { max-width:86%; }
+  }
 </style>
 </head>
 <body>
-<div class="shell">
-<header class="brandbar"><div class="brand"><span class="brand-mark" aria-hidden="true">r</span>RELIAagent</div><span class="owner">Owner workspace</span></header>
-<div class="page-title"><h1>Conversations</h1><p>A clear view of your customers and their chats.</p></div>
-<section class="stats" aria-label="Customer activity">
-  <div class="stat"><div class="stat-label">Total customers</div><span class="stat-number" id="totalCustomers">—</span><div class="stat-note">Unique numbers in saved chat history</div><span class="stat-symbol" aria-hidden="true">◎</span></div>
-  <div class="stat"><div class="stat-label">Active today</div><span class="stat-number" id="activeToday">—</span><div class="stat-note">Customers who messaged · your local time</div><span class="stat-symbol" aria-hidden="true">↗</span></div>
-</section>
 <div class="app" id="app">
   <div class="sidebar">
-    <div class="side-head"><span>Inbox</span><button id="refreshBtn">↻ Refresh</button></div>
-    <div class="search-wrap"><input class="search" id="search" type="search" placeholder="Search number or latest message" aria-label="Search by phone number or latest message"></div>
-    <div class="filters"><button class="filter" id="allFilter" aria-pressed="true">All chats</button><button class="filter" id="unreadFilter" aria-pressed="false">Unread</button></div>
+    <div class="side-head"><span>Chats</span><button id="refreshBtn">Refresh</button></div>
+    <div class="counts" aria-label="Customer counts">
+      <span title="Unique customer numbers in saved chat history">Total numbers <strong id="totalCustomers">—</strong></span>
+      <span class="divider" aria-hidden="true">/</span>
+      <span title="Unique numbers that sent a message today, in your browser’s local time">Today <strong id="activeToday">—</strong></span>
+    </div>
     <div class="thread-list" id="threadList"></div>
   </div>
   <div class="main">
@@ -103,17 +108,13 @@
       <span class="full-phone" id="fullPhone"></span>
       <button class="copy-btn" id="copyBtn" title="Copy phone number">📋 Copy</button>
     </div>
-    <div class="messages" id="messages"><div class="empty"><strong>Every conversation, in one place.</strong>Select a chat to see how your agent is helping.</div></div>
-    <div class="pane-footer">Conversation history · Replies are sent by your agent</div>
+    <div class="messages" id="messages"><div class="empty">No conversation selected yet.</div></div>
   </div>
-</div>
-<div class="status" id="status" role="status" aria-live="polite">Connecting to your inbox…</div>
 </div>
 <script>
   // No typing box in this version, on purpose. This page only reads.
   let currentPhone = null;
   let threadsCache = [];
-  let unreadOnly = false, refreshing = false, messageVersion = 0;
 
   function maskPhone(phone) {
     // Sidebar shows only the last 4 digits, full number is in the header.
@@ -135,15 +136,20 @@
 
   async function loadThreads() {
     const res = await fetch("/dashboard/api/threads");
-    if (!res.ok) throw new Error('Could not load chats. Check your connection and dashboard sign-in.');
+    if (!res.ok) { document.getElementById("threadList").innerHTML = "<div class='empty'>Could not load chats. Check the dashboard password.</div>"; return; }
     threadsCache = await res.json();
     const customers = threadsCache.filter(t => t.last_customer_at);
     document.getElementById('totalCustomers').textContent = customers.length.toLocaleString();
-    document.getElementById('activeToday').textContent = customers.filter(t => new Date(t.last_customer_at).toDateString() === new Date().toDateString()).length.toLocaleString();
+    document.getElementById('activeToday').textContent = customers.filter(t =>
+      new Date(t.last_customer_at).toDateString() === new Date().toDateString()
+    ).length.toLocaleString();
     renderThreads();
     // Default open rule: most recent unread first, else most recent thread.
     // Threads are already sorted newest first by the server.
-    // Keep the inbox visible until the owner chooses a conversation.
+    if (!currentPhone && threadsCache.length > 0) {
+      const firstUnread = threadsCache.find(t => t.unread_count > 0);
+      openThread(firstUnread ? firstUnread.thread_id : threadsCache[0].thread_id);
+    }
   }
 
   function renderThreads() {
@@ -153,10 +159,7 @@
       return;
     }
     list.innerHTML = "";
-    const query = document.getElementById('search').value.trim().toLowerCase();
-    const filtered = threadsCache.filter(t => (!unreadOnly || t.unread_count > 0) && (t.thread_id.includes(query) || (t.last_text || '').toLowerCase().includes(query)));
-    if (!filtered.length) list.innerHTML = '<div class="empty"><strong>No matching chats</strong>Try another search or choose All chats.</div>';
-    filtered.forEach(t => {
+    threadsCache.forEach(t => {
       // Fix for the open-thread bug: a thread that is already open
       // is being looked at, so it never gets the green dot or bold,
       // even if a new message just arrived in it.
@@ -166,8 +169,8 @@
       btn.className = "thread" + (isCurrent ? " active" : "") + (hasUnread ? " unread" : "");
       btn.innerHTML =
         "<div class='row-top'><span class='phone-mask'>" + esc(maskPhone(t.thread_id)) + "</span>" +
-        "<span class='time'>" + esc(dateOf(t.last_at) === dateOf(new Date()) ? timeOf(t.last_at) : dateOf(t.last_at)) + "</span></div>" +
-        "<div class='row-bottom'><span class='snippet'>" + esc((t.last_direction === "agent" ? "Agent: " : "") + (t.last_text || "").slice(0, 80)) + "</span>" +
+        "<span class='time'>" + esc(timeOf(t.last_at)) + "</span></div>" +
+        "<div class='row-bottom'><span class='snippet'>" + esc((t.last_direction === "agent" ? "You: " : "") + (t.last_text || "").slice(0, 80)) + "</span>" +
         (hasUnread ? "<span class='badge'>" + t.unread_count + "</span>" : "") + "</div>";
       btn.onclick = () => openThread(t.thread_id);
       list.appendChild(btn);
@@ -180,44 +183,37 @@
     document.getElementById("mainHead").style.display = "flex";
     document.getElementById("fullPhone").textContent = phone;
     document.getElementById("copyBtn").textContent = "📋 Copy";
-    document.getElementById('messages').innerHTML = '<div class="empty">Loading conversation…</div>';
-    renderThreads();
-    try { await loadMessages(true); } catch (e) { showError(e); }
+    await loadMessages();
     // Owner opened it, so clear its green dot, then refresh the sidebar.
+    await fetch("/dashboard/api/threads/" + encodeURIComponent(phone) + "/seen", { method: "POST" });
+    await loadThreads();
     renderThreads();
   }
 
-  async function loadMessages(forceScroll = false) {
-    if (!currentPhone || document.hidden) return;
-    const phone = currentPhone, version = ++messageVersion;
+  async function loadMessages() {
+    if (!currentPhone) return;
     const box = document.getElementById("messages");
     const nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 120;
     const res = await fetch("/dashboard/api/threads/" + encodeURIComponent(currentPhone) + "/messages");
-    if (!res.ok) throw new Error('Could not load this conversation. Try Refresh.');
+    if (!res.ok) return;
     const msgs = await res.json();
-    if (phone !== currentPhone || version !== messageVersion) return;
     if (msgs.length === 0) { box.innerHTML = "<div class='empty'>No messages in this thread yet.</div>"; return; }
     let html = "", lastDate = "";
     msgs.forEach(m => {
       const d = dateOf(m.created_at);
       if (d !== lastDate) { html += "<div class='date-sep'>" + esc(d) + "</div>"; lastDate = d; }
-      const direction = ['customer','agent','system'].includes(m.direction) ? m.direction : 'system';
-      html += "<div class='bubble " + direction + "'><span class='sender'>" + ({customer:'Customer',agent:'AI agent',system:'System'}[direction]) + "</span><div class='message-text' dir='auto'>" + esc(m.text) + "</div>" +
+      html += "<div class='bubble " + esc(m.direction) + "'>" + esc(m.text) +
               "<span class='msg-time'>" + esc(timeOf(m.created_at)) + "</span></div>";
     });
     box.innerHTML = html;
-    if (nearBottom || forceScroll) box.scrollTop = box.scrollHeight;
+    if (nearBottom) box.scrollTop = box.scrollHeight;
     // This thread is open, so what was just shown is seen.
     // Mark it seen on every refresh, not only when it was first
     // opened, otherwise a message that arrives while it is open
     // would stay unread on the server and get a dot on the next
     // sidebar refresh. No sidebar reload here, to avoid a loop:
     // the next 7-second refresh will pick up the cleared count.
-    const seen = await fetch("/dashboard/api/threads/" + encodeURIComponent(phone) + "/seen", { method: "POST" });
-    if (!seen.ok) throw new Error('Could not mark this conversation as read. Try Refresh.');
-    const thread = threadsCache.find(t => t.thread_id === phone);
-    if (thread) thread.unread_count = 0;
-    renderThreads();
+    await fetch("/dashboard/api/threads/" + encodeURIComponent(currentPhone) + "/seen", { method: "POST" });
   }
 
   // Copy button: full number, no spaces, so pasting into WhatsApp search works.
@@ -239,35 +235,18 @@
     setTimeout(() => { btn.textContent = "📋 Copy"; }, 1500);
   };
 
-  function showError(e) { const status = document.getElementById('status'); status.textContent = e.message || 'Connection lost. Try Refresh.'; status.classList.add('error'); }
-  async function refresh() {
-    if (window.location.protocol === 'file:') {
-      const help = 'This is a local HTML preview. To load your chats, open your agent website followed by /dashboard and sign in.';
-      document.getElementById('threadList').textContent = help;
-      showError(new Error(help));
-      return;
-    }
-    if (refreshing || document.hidden) return;
-    refreshing = true;
-    document.getElementById('refreshBtn').disabled = true;
-    try { await loadThreads(); await loadMessages(); const status = document.getElementById('status'); status.textContent = 'Updated ' + timeOf(new Date()) + ' · Refreshes automatically every 7 seconds'; status.classList.remove('error'); }
-    catch(e) { showError(e); }
-    finally { refreshing = false; document.getElementById('refreshBtn').disabled = false; }
-  }
-  document.getElementById('search').oninput = renderThreads;
-  function setFilter(value) { unreadOnly = value; document.getElementById('allFilter').setAttribute('aria-pressed', String(!value)); document.getElementById('unreadFilter').setAttribute('aria-pressed', String(value)); renderThreads(); }
-  document.getElementById('allFilter').onclick = () => setFilter(false);
-  document.getElementById('unreadFilter').onclick = () => setFilter(true);
-  document.getElementById("refreshBtn").onclick = refresh;
-  document.getElementById("backBtn").onclick = () => { document.getElementById("app").classList.remove("show-chat"); currentPhone = null; messageVersion++; renderThreads(); };
+  document.getElementById("refreshBtn").onclick = async () => { await loadThreads(); if (currentPhone) await loadMessages(); };
+  document.getElementById("backBtn").onclick = () => { document.getElementById("app").classList.remove("show-chat"); };
 
-  refresh();
+  loadThreads();
   // Auto-refresh every 7 seconds. New messages appear without reloading
   // the page. A message that arrives while its thread is open is marked
   // seen by loadMessages, and its sidebar row never gets a dot.
   // A message in another thread gets a dot.
-  setInterval(refresh, 7000);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+  setInterval(async () => {
+    await loadThreads();
+    if (currentPhone) await loadMessages();
+  }, 7000);
 </script>
 </body>
 </html>
